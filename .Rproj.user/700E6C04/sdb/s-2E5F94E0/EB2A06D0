@@ -1,12 +1,16 @@
 {
-    "contents" : "Data wrangling and plotting in R\n========================================================\nauthor: Etienne Low-Décarie\n\n[ggplot2](http://htmlpreview.github.com/low-decarie/Data_wrangling_and_plotting/blob/master/tidyr.html)\n\n",
+    "contents" : "Data wrangling and plotting in R\n========================================================\nauthor: Etienne Low-Décarie\n\n[ggplot2](http://low-decarie.github.io/Data_wrangling_and_plotting/ggplot2.html#/)\n\n[tidyr](http://low-decarie.github.io/Data_wrangling_and_plotting/tidyr.html#/)\n\n[dplyr](http://low-decarie.github.io/Data_wrangling_and_plotting/dplyr.html#/)\n\n",
     "created" : 1445189690104.000,
     "dirty" : false,
     "encoding" : "UTF-8",
     "folds" : "",
-    "hash" : "608112340",
+    "hash" : "718719108",
     "id" : "EB2A06D0",
+<<<<<<< HEAD
     "lastKnownWriteTime" : 1445193520,
+=======
+    "lastKnownWriteTime" : 1445193310,
+>>>>>>> gh-pages
     "path" : "~/Documents/R/Data_wrangling_and_plotting/index.Rpres",
     "project_path" : "index.Rpres",
     "properties" : {
