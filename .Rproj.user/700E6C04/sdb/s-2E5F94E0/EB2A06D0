@@ -1,12 +1,12 @@
 {
-    "contents" : "Data wrangling and plotting in R\n========================================================\nauthor: Etienne Low-Décarie\n\n[ggplot2](http://htmlpreview.github.com/low-decarie/Data_wrangling_and_plotting/blob/master/ggplot2.html)\n\n",
+    "contents" : "Data wrangling and plotting in R\n========================================================\nauthor: Etienne Low-Décarie\n\n[ggplot2](http://htmlpreview.github.com/low-decarie/Data_wrangling_and_plotting/blob/gh-pages/ggplot2.html)\n\n",
     "created" : 1445189690104.000,
     "dirty" : false,
     "encoding" : "UTF-8",
     "folds" : "",
-    "hash" : "4224210507",
+    "hash" : "289873404",
     "id" : "EB2A06D0",
-    "lastKnownWriteTime" : 1445190324,
+    "lastKnownWriteTime" : 1445190413,
     "path" : "~/Documents/R/Data_wrangling_and_plotting/index.Rpres",
     "project_path" : "index.Rpres",
     "properties" : {
