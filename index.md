@@ -2,5 +2,9 @@ Data wrangling and plotting in R
 ========================================================
 author: Etienne Low-Décarie
 
-[ggplot2](http://htmlpreview.github.com/low-decarie/Data_wrangling_and_plotting/blob/gh-pages/ggplot2.html)
+[ggplot2](http://low-decarie.github.io/Data_wrangling_and_plotting/ggplot2.html#/)
+
+[tidyr](http://low-decarie.github.io/Data_wrangling_and_plotting/tidyr.html#/)
+
+[dplyr](http://low-decarie.github.io/Data_wrangling_and_plotting/dplyr.html#/)
 
