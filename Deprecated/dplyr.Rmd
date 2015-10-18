@@ -1,0 +1,203 @@
+---
+title: "dplyr"
+author: "Etienne Low-Décarie"
+date: "September 24, 2015"
+output: ioslides_presentation
+---
+
+## dplyr and plyr
+
+```{r fig.width=3, fig.height=2,echo=FALSE}
+require(png)
+require(grid)
+img <- readPNG("./dplyr-figure/plyr.png")
+ grid.raster(img)
+```
+
+## Split-Apply-Combine
+
+- Equivalent
+  - SQL GROUP BY
+  - Pivot Tables (Excel, SPSS, …)
+- Split
+  - Define a subset of your data
+- Apply
+  - Do anything to this subset 
+  - calculation, modeling, simulations, plotting
+- Combine
+- Repeat this for all subsets
+  - collect the results
+  
+```{r fig.width=3, fig.height=2,echo=FALSE}
+img <- readPNG("./dplyr-figure/split_apply_combine.png")
+ grid.raster(img)
+```
+  
+## History and use
+
+- plyr
+  - any input, any output
+      - to load a list of files
+      - to produce plots
+  - slow and complicated
+
+- dplyr
+  - data.frame in/data.frame out
+  - faster
+  - Details:
+   - introducing pipes to R (`%.%` / `%>%`)
+   - can treat remote databases as data.frame
+    - in database calculation (much faster)
+
+
+## dplyr    
+    
+## Split verbes
+
+- `filter`
+- `select`
+
+## Grouping
+- `group_by`
+
+## Apply verbes
+
+-`mutate`
+-`summarise`
+
+
+## group data
+
+```{r fig.width=3, fig.height=3,echo=T}
+if(!require(dplyr)){install.packages("dplyr")}
+require(dplyr)
+CO2_by_Plant_Type_Treatment <- group_by(CO2,
+                                        Plant, Type, Treatment)
+```
+
+## Summarize grouped data
+
+Summarize by extracting maximum uptake per plant
+```{r fig.width=3, fig.height=3,echo=T}
+ 
+CO2_max_per_plant <- summarise(CO2_by_Plant_Type_Treatment,
+                               max_uptake=max(uptake))
+ 
+ head(CO2_max_per_plant)
+ 
+```
+
+
+## Plot summarized data
+
+```{r fig.width=3, fig.height=3,echo=T}
+ if(!require(ggplot2)){install.packages("ggplot2")}
+require(ggplot2)
+ 
+dodge <- position_dodge(1)
+
+p <- qplot(data=CO2_max_per_plant,
+           x=Type,
+           y=max_uptake,
+           fill=Treatment,
+           geom="bar",
+           stat="summary",
+           fun.y=mean,
+           position=dodge)+
+  stat_summary(fun.data="mean_cl_normal", 
+               geom="errorbar",
+               position=dodge)
+
+print(p)
+```
+
+#Create a beautiful table of summarized data
+
+```{r fig.width=3, fig.height=3,echo=T}
+if(!require(gridExtra)){install.packages("gridExtra")}
+require(gridExtra)
+grid.newpage()
+grid.table(head(data.frame(CO2_max_per_plant)))
+```
+
+
+## dplyr mutate data
+
+Calculate deviation from the mean uptake for each plant
+
+```{r fig.width=3, fig.height=3,echo=T}
+
+CO2_with_deviation <- mutate(CO2_by_Plant_Type_Treatment,
+                               deviation_from_mean=uptake-mean(uptake))
+```
+
+## Plot mutated data
+
+```{r fig.width=6, fig.height=3,echo=T}
+CO2.plot <- qplot(data = CO2_with_deviation,
+                  x = conc,
+                  y = deviation_from_mean,
+                  colour = Treatment) + 
+  facet_grid(.~Type)+
+  geom_line(aes(group = Plant))
+print(CO2.plot)
+```
+
+
+## Writing your own functions
+
+Calculate the slope and intercept for each plant
+
+```{r fig.width=3, fig.height=3,echo=T}
+intercept_slop <- function(conc, uptake){
+  fit <- lm(uptake~conc)
+  coefficients <- coef(fit)
+  return(data.frame(intercept=coefficients[1],
+                    slope=coefficients[2]))
+}
+```
+
+## Using your new function with dplyr
+
+```{r fig.width=3, fig.height=3,echo=T}
+CO2_fit <- summarise(CO2_by_Plant_Type_Treatment,
+                     intercept=intercept_slop(conc, uptake)$intercept,
+                     slope=intercept_slop(conc, uptake)$slope)
+```
+
+## Plot the results of your new function
+
+```{r fig.width=3, fig.height=3,echo=T}
+dodge <- position_dodge(1)
+p <- qplot(data=CO2_fit,
+           x=Type,
+           y=slope,
+           fill=Treatment,
+           geom="bar",
+           stat="summary",
+           fun.y=mean,
+           position=dodge)+
+  stat_summary(fun.data="mean_cl_normal", 
+               geom="errorbar",
+               position=dodge)
+
+print(p)
+```
+
+
+## plyr
+
+
+
+ my.function<-function(subset.data){
+			 results<-do.something(subset.data)
+                       return(data.frame(results))}
+
+my.function can produce as many rows as subset.data (transform)
+or fewer rows than subset.data (summarize)
+
+returned.results<-ddply(.data=data,
+                       .variable=c("variable1", "variable2”),
+		    my.function(subset.data))
+
+
