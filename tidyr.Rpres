@@ -19,6 +19,7 @@ Wide
 require(tidyr)
 require(gridExtra)
 require(grid)
+require(lattice)
 grid.newpage() #clear the graphic device
 grid.table(head(iris)) #create a nice graphic table
 ```
