@@ -8,6 +8,8 @@ author: Etienne Low-Décarie
 
 [dplyr](http://low-decarie.github.io/Data_wrangling_and_plotting/dplyr.html#/)
 
+***
+
 [ggmap](http://low-decarie.github.io/Data_wrangling_and_plotting/ggmap.html#/)
 
 [dojo](http://low-decarie.github.io/Data_wrangling_and_plotting/dojo.html#/)
