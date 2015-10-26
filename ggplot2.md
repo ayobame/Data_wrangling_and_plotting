@@ -7,7 +7,8 @@
 ggplot2
 ========================================================
 author: Etienne Low-Décarie
-date: September 12, 2015
+date: October 27 2015
+transition: rotate
 
 Waiting around?
 ===
@@ -32,7 +33,7 @@ library(googleVis)
 demo(smooth)
 ```
 - notice it shows you the code that creates the demo!
-- look at packages on http://crantastic.org
+- look at packages on [crantastic.org](http://crantastic.org)
 
 
 Tell me about you
@@ -81,7 +82,7 @@ object <- function(argument1="value1",
 
 - Create your own new script
   + refer to provided code only if needed
-  + don't use the one provided
+  + don't just copy paste from the presentation
 
 
 
@@ -97,6 +98,20 @@ A few preferences
   - Scripts
   - Output
   - etc
+
+Material
+===
+
+To view presentations:  
+[http://low-decarie.github.io/Data_wrangling_and_plotting/#/](http://low-decarie.github.io/Data_wrangling_and_plotting)
+
+To view code that generated presentations:  
+https://github.com/low-decarie/Data_wrangling_and_plotting  
+You can look at the `.Rpres` files that generated these presentations
+You can run the code in these presentation (even all of it, using Chunks>Run All)
+
+There is a folder called `./Data/` that contains data relavant to some of the exercises
+
 
 
 Without R
@@ -140,6 +155,8 @@ Outline (ggplot2)
     + Available plot elements and when to use them
     + Exercise 2
 3. Saving a plot
+  + Exercise 3
+  + Challenge
     
 ***
 
@@ -464,9 +481,9 @@ Exercise 3
 ===
 
 Explore geoms and other plot elements with the data you have used
+and/or your own data
 
 ```
-
 msleep
 ?msleep
 OrchardSprays
@@ -540,6 +557,12 @@ plot(lm.SR)
 ```
 
 ![plot of chunk unnamed-chunk-27](ggplot2-figure/unnamed-chunk-27-1.png) ![plot of chunk unnamed-chunk-27](ggplot2-figure/unnamed-chunk-27-2.png) ![plot of chunk unnamed-chunk-27](ggplot2-figure/unnamed-chunk-27-3.png) ![plot of chunk unnamed-chunk-27](ggplot2-figure/unnamed-chunk-27-4.png) 
+
+
+Challenge
+===
+
+Find an interesting data set on Dryad.org, reproduce a figure from the associated article using ggplot2
 
 
 Extending ggplot
@@ -772,3 +795,14 @@ grid.arrange(basic.plot, mytheme_plot, nrow=1)
 
 ![plot of chunk unnamed-chunk-44](ggplot2-figure/unnamed-chunk-44-1.png) 
 
+
+Challenge
+===
+
+Find an interesting data set on Dryad.org, reproduce a figure from the article using ggplot2
+
+Example: try to reproduce figure Figure 1A from  
+Dutilleul, M. et al., 2014. Rapid evolutionary responses of life history traits to different experimentally-induced pollutions in Caenorhabditis elegans. BMC evolutionary biology, 14(1), p.252.  
+[paper](http://www.biomedcentral.com/content/pdf/s12862-014-0252-6.pdf)  
+[data](https://datadryad.org/bitstream/handle/10255/dryad.71040/multiG2.csv?sequence=1)  
+(author from UQAM)
