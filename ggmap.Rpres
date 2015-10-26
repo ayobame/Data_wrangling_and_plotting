@@ -8,7 +8,7 @@
 ggmap
 ========================================================
 author: Etienne Low-Décarie
-date: September 25, 2015
+date: October 27 2015
 
 
 
@@ -34,6 +34,12 @@ map <- ggplot()+borders("world",
 print(map)
 ```
 
+Resource
+===
+
+Cheatsheet:
+
+
 Pretty world map
 ===
 
@@ -54,6 +60,7 @@ myMap <- get_map(location=myLocation,
                  crop=FALSE) 
 
 myMap <- ggmap(myMap)
+print(myMap)
 ```
 
 
@@ -104,3 +111,31 @@ Fine tuning: Facets
 ```{r fig.width=8, fig.height=6,echo=T}
 print(map+facet_wrap(~YEAR))
 ```
+
+
+Exercise 1
+===
+
+Create a coordinate file with the location of your house and the location of the house of your friends
+
+Plot the distribution of *Amazilia amazilia* using data from :
+Oswald, J.A. et al., 2015. Historical climatic variability and geographical barriers as drivers of community composition in a biodiversity hotspot. Journal of Biogeography
+[paper](http://onlinelibrary.wiley.com/doi/10.1111/jbi.12605/abstract?userIsAuthenticated=false&deniedAccessCustomisedMessage=)
+[data](http://datadryad.org/resource/doi:10.5061/dryad.56p0f)
+
+
+
+<div class="centered">
+
+<script src="countdown.js" type="text/javascript"></script>
+<script type="application/javascript">
+var myCountdown1 = new Countdown({
+    							time: 300, 
+									width:150, 
+									height:80, 
+									rangeHi:"minute"	// <- no comma on last item!
+									});
+
+</script>
+
+</div>

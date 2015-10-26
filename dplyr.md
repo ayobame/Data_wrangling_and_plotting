@@ -7,7 +7,8 @@
 dplyr
 ========================================================
 author: Etienne Low-Décarie
-date: September 24, 2015
+date: October 27 2015
+transition: fade
 
 dplyr and plyr
 ===
@@ -80,16 +81,16 @@ require(dplyr)
 
 you can also use `dplyr:::` to ensure functions are called from dplyr  
 
-https://github.com/hadley/dplyr/issues/347
+[issue](https://github.com/hadley/dplyr/issues/347)
 
 dplyr    
 ===
 
 Vignette
-https://cran.rstudio.com/web/packages/dplyr/vignettes/introduction.html
+[https://cran.rstudio.com/web/packages/dplyr/vignettes/introduction.html](https://cran.rstudio.com/web/packages/dplyr/vignettes/introduction.html)
 
 Cheatsheet
-https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf
+[https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf](https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf)
 
 Grouping
 ===
@@ -650,15 +651,15 @@ Opportunities
 ===
 
 - PhD positions
-- Taugh masters and MRes
+- Taught masters and MRes
   - Tropical marine biology!
   
-http://etiennelowdecarie.org
+[http://etiennelowdecarie.org](http://etiennelowdecarie.org)
   
   
 Please provide feedback
 ===
 
-goo.gl/WzxPuA
+[goo.gl/WzxPuA](http://goo.gl/WzxPuA)
 
 <iframe src="https://docs.google.com/spreadsheets/d/1HLFz-jbeFRMD3DCopQ_AstjecRiZ1WvyIYGouX5IHBU/pubhtml?gid=883453&amp;single=true&amp;widget=true&amp;headers=false" width="400" height="400"></iframe>

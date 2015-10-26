@@ -8,7 +8,8 @@
 tidyr
 ========================================================
 author: Etienne Low-Décarie
-date: September 24, 2015
+date: October 27 2015
+transition: zoom
 
 Long vs wide data
 ===
@@ -34,16 +35,16 @@ Tidy data
 Messy data
 - Anything else
 
-Wickham, H. (2014). Tidy Data. J. Stat. Softw., 59, 1–2.
+[Wickham, H. (2014). Tidy Data. J. Stat. Softw., 59, 1–2.](http://www.jstatsoft.org/article/view/v059i10/v59i10.pdf)
 
 
 History
 ===
 
-- reshape and reshape2  
+- `reshape` and `reshape2` 
   - melt and cast
   - aggregate: summary calculations
-- tidyr
+- `tidyr`
   - only data frames
   - simple unique use verbs
   - no summarising/aggregation
@@ -133,7 +134,7 @@ var myCountdown2 = new Countdown({
 use `gather` to produce a data.frame from an image file
 that can be plotted using ggplot
   - download and plot the red channel of the UQAM logo
-  - use the `.nc` of world sea temperature file in the Data folder
+  - use the `.nc` of world sea temperature file in the `Data` folder
   
 Exercise 1
 ===
@@ -572,8 +573,9 @@ Exercise 4
 
 Using facets, produce an exploratory plot of `Length,	Body Width and	Caudal`
 using the data from:  
-Jacobson, B., Grant, J.W.A. & Peres-Neto, P.R., 2015. The interaction between the spatial distribution of resource patches and population density: consequences for intraspecific growth and morphology. Journal of Animal Ecology, 84(4), pp.934–942.
-Available on Dryad.org
+Jacobson, B., Grant, J.W.A. & Peres-Neto, P.R., 2015. The interaction between the spatial distribution of resource patches and population density: consequences for intraspecific growth and morphology. Journal of Animal Ecology, 84(4), pp.934–942.  
+[paper](http://onlinelibrary.wiley.com/doi/10.1111/1365-2656.12365/abstract;jsessionid=B13A863A84D13569CB0BB21F1FA10CD6.f03t01)
+[data](http://datadryad.org/resource/doi:10.5061/dryad.7nb71)
 
 
 
