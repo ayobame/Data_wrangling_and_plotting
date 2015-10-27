@@ -107,7 +107,7 @@ To view presentations:
 
 To view code that generated presentations:  
 https://github.com/low-decarie/Data_wrangling_and_plotting  
-You can look at the `.Rpres` files that generated these presentations
+You can look at the `.Rpres` files that generated these presentations  
 You can run the code in these presentation (even all of it, using Chunks>Run All)
 
 There is a folder called `./Data/` that contains data relavant to some of the exercises
@@ -463,7 +463,7 @@ Available elements
 
 http://docs.ggplot2.org
 
-<iframe src="http://docs.ggplot2.org" width="300">
+<iframe src="http://docs.ggplot2.org" width="1000" height="800">
   <p>Your browser does not support iframes.</p>
 </iframe>
 
@@ -472,7 +472,7 @@ Resources
 
 cheatsheets: https://www.rstudio.com/resources/cheatsheets/
 
-<iframe src="https://www.rstudio.com/resources/cheatsheets/" width="300">
+<iframe src="https://www.rstudio.com/resources/cheatsheets/" width="1000"  height="800">
   <p>Your browser does not support iframes.</p>
 </iframe>
 
@@ -562,7 +562,13 @@ plot(lm.SR)
 Challenge
 ===
 
-Find an interesting data set on Dryad.org, reproduce a figure from the associated article using ggplot2
+Find an interesting data set on Dryad.org, reproduce a figure from the article using ggplot2
+
+Example: try to reproduce figure Figure 1A from  
+Dutilleul, M. et al., 2014. Rapid evolutionary responses of life history traits to different experimentally-induced pollutions in Caenorhabditis elegans. BMC evolutionary biology, 14(1), p.252.  
+[paper](http://www.biomedcentral.com/content/pdf/s12862-014-0252-6.pdf)  
+[data](https://datadryad.org/bitstream/handle/10255/dryad.71040/multiG2.csv?sequence=1)  
+(author from UQAM)
 
 
 Extending ggplot

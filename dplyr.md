@@ -156,8 +156,16 @@ group data
 **Caution when working with functions that expect a `data.frame`**
 
 
+```r
+class(CO2_by_Plant_Type_Treatment)
+```
+
 ```
 [1] "grouped_df" "tbl_df"     "tbl"        "data.frame"
+```
+
+```r
+head(as.data.frame(CO2_by_Plant_Type_Treatment))
 ```
 
 ```

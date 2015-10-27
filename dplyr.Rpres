@@ -131,7 +131,7 @@ group data
 
 **Caution when working with functions that expect a `data.frame`**
 
-```{r fig.width=3, fig.height=3,echo=F}
+```{r fig.width=3, fig.height=3,echo=T}
 class(CO2_by_Plant_Type_Treatment)
 head(as.data.frame(CO2_by_Plant_Type_Treatment))
 ```
