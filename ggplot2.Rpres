@@ -10,61 +10,6 @@ author: Etienne Low-Décarie
 date: October 27 2015
 transition: rotate
 
-Waiting around?
-===
-class: small-code
-
-Let R impress you:
-```{r eval=FALSE}
-demo(package = .packages(all.available = TRUE))
-```
-- you will get a text file with all available demos
-- choose one of interest 
-- if needed load its package
-
-***
-
-- type it in the demo brackets
-- example
-```{r eval=FALSE}
-library(googleVis)
-demo(smooth)
-```
-- notice it shows you the code that creates the demo!
-- look at packages on [crantastic.org](http://crantastic.org)
-
-
-Tell me about you
-===
-
-- Have you created a plot?
-- With what data?
-- What kind of plot?
-- Have plotted with R?
-- used ggplot?
-- How many variables do you usually need to put into a plot?
-- Do you need to produce maps?
-- Have you used stackoverflow?
-- Are you in buddy pairs?
-- Who uses Rstudio as their IDE?
-
-Outline
-===
-
-- 09:00-11:00 ggplot2
-- 11:00-13:30 lunch (potential to work on challenge)
-- 13:30-14:00 tidyr
-- 14:00-15:30 dplyr
-- 15:30-16:30 Maps using ggplot/ggmap
-- 16:30-17:30 Coding dojo
-
-How we will work
-===
-
-![How we will work](./ggplot2_images/how we work.png)
-
-
-
 A few pet peeves
 ===
 
@@ -86,18 +31,6 @@ library(png)
 library(grid)
 ```
 
-
-A few preferences
-===
-
-- Use RStudio
-  - Use RStudio projects (or R package etc.)
-- Craete organized folder structure
-  - Data
-  - Plots
-  - Scripts
-  - Output
-  - etc
 
 Material
 ===
@@ -162,12 +95,13 @@ Outline (ggplot2)
     
 ***
 
-(PM?)  
+Tomorrow  
 
 4. Expanding ggplot    
 5. Fine tuning your plot
     + colours
     + themes
+6. Maps
 
 
 
@@ -226,6 +160,8 @@ qplot(data=iris,
       ylab="Sepal Length (mm)",
       main="Sepal dimensions")
 ```
+
+
 
 Exercise 1
 ===
@@ -303,13 +239,11 @@ e.g. just change the coordinate system
 DF <- data.frame(variable = LETTERS[1:10], value = sample(10,
                                                  replace = TRUE))
 
-p_bar <- qplot(data=DF,
-              x=variable,
+p_bar <- ggplot(data=DF, 
+                aes(x=variable,
               fill=variable,
-              y=value,
-              stat="identity",
-              geom="bar")
-
+              y=value))+
+                geom_bar(stat="identity")
 print(p_bar)
 
 p_polar <- p_bar + coord_polar()
@@ -324,6 +258,10 @@ How it works
 1. create a simple plot object
 ```{r eval=FALSE}
 plot.object<-qplot()
+
+or
+
+plot.object<-ggplot()
 ```
 2. add graphical layers/complexity
 ```{r eval=FALSE}
@@ -349,6 +287,26 @@ basic.plot<-qplot(data=iris,
 
 print(basic.plot)
 ```
+
+
+Using ggplot function
+===
+
+more powerful, more complicated
+Note: aes() and geom_point()
+
+```{r fig.width=4, fig.height=4}
+basic.plot<- ggplot(data=iris,
+               aes(x=Sepal.Length,
+                  xlab="Sepal Width (mm)",
+                  y=Sepal.Width,
+                  ylab="Sepal Length (mm)",
+                  main="Sepal dimensions"))+
+  geom_point()
+```
+now required to use stat=""
+
+
 
 Scatter plot with colour and shape
 ===
@@ -535,7 +493,8 @@ Using the right tool for the right situation
 base R `plot` function has methods for many different object types
 
 ```{r fig.width=3, fig.height=3,echo=T}
-lm.SR <- lm(sr ~ pop15 + pop75 + dpi + ddpi, data = LifeCycleSavings)
+lm.SR <- lm(sr ~ pop15 + pop75 + dpi + ddpi,
+            data = LifeCycleSavings)
 plot(lm.SR)
 ```
 
@@ -545,11 +504,11 @@ Challenge
 
 Find an interesting data set on Dryad.org, reproduce a figure from the article using ggplot2
 
-Example: try to reproduce figure Figure 1A from  
-Dutilleul, M. et al., 2014. Rapid evolutionary responses of life history traits to different experimentally-induced pollutions in Caenorhabditis elegans. BMC evolutionary biology, 14(1), p.252.  
-[paper](http://www.biomedcentral.com/content/pdf/s12862-014-0252-6.pdf)  
-[data](https://datadryad.org/bitstream/handle/10255/dryad.71040/multiG2.csv?sequence=1)  
-(author from UQAM)
+Example: try to reproduce figure 1 and 4 from
+Low-Décarie, E., Fussmann, G. F., Bell, G., Low-Decarie, E., Fussmann, G. F., Bell, G., Low-Décarie, E., Fussmann, G. F. & Bell, G. 2014 Aquatic primary production in a high-CO2 world. Trends Ecol. Evol. 29, 1–10.    
+[paper](http://www.sciencedirect.com/science/article/pii/S0169534714000433)  
+[data](http://datadryad.org/handle/10255/dryad.60481)  
+full scripts also available on github
 
 
 Extending ggplot
@@ -751,10 +710,9 @@ grid.arrange(basic.plot, mytheme_plot, nrow=1)
 Challenge
 ===
 
-Find an interesting data set on Dryad.org, reproduce a figure from the article using ggplot2
+Using figure from previous challenge (or other dryad.org paper/data), edit figure to match a journal's style requirements
 
 Example: try to reproduce figure Figure 1A from  
 Dutilleul, M. et al., 2014. Rapid evolutionary responses of life history traits to different experimentally-induced pollutions in Caenorhabditis elegans. BMC evolutionary biology, 14(1), p.252.  
 [paper](http://www.biomedcentral.com/content/pdf/s12862-014-0252-6.pdf)  
 [data](https://datadryad.org/bitstream/handle/10255/dryad.71040/multiG2.csv?sequence=1)  
-(author from UQAM)

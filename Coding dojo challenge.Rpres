@@ -1,7 +1,7 @@
 Coding dojo challenge
 ========================================================
 author: Etienne Low-Décarie
-date: October 26 2015
+date: 
 
 Challenge
 ========================================================
@@ -28,19 +28,4 @@ Steps
 
 - Identify outlies in time series data?  Test correlation between amplitude of anaomly and intensity of bleaching event?
 
-More
-========================================================
 
-Find dojos fun?  Want to learn more?
-
-Join and partake in the [Montreal R User group](http://www.meetup.com/Montreal-R-User-Group/)
-
-[QCBS R workshops](http://qcbs.ca/training/qcbs-r-workshop-series/)
-
-
-Please provide feedback
-===
-
-[goo.gl/WzxPuA](http://goo.gl/WzxPuA)
-
-<iframe src="https://docs.google.com/spreadsheets/d/1HLFz-jbeFRMD3DCopQ_AstjecRiZ1WvyIYGouX5IHBU/pubhtml?gid=883453&amp;single=true&amp;widget=true&amp;headers=false" width="400" height="400"></iframe>
