@@ -238,436 +238,79 @@ left: 75%
 
  
 
-```r
-dodge <- position_dodge(1)
 
-p <- qplot(data=CO2_max_per_plant,
-           x=Type,
-           y=max_uptake,
-           fill=Treatment,
-           geom="bar",
-           stat="summary",
-           fun.y=mean,
-           position=dodge)+
-  stat_summary(fun.data="mean_cl_normal", 
-               geom="errorbar",
-               position=dodge)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ```
+processing file: dplyr.Rpres
+Loading required package: png
+Loading required package: grid
+Loading required package: plyr
+Loading required package: dplyr
 
-***
+Attaching package: 'dplyr'
 
+The following objects are masked from 'package:plyr':
 
-![plot of chunk unnamed-chunk-11](dplyr-figure/unnamed-chunk-11-1.png) 
+    arrange, count, desc, failwith, id, mutate, rename, summarise,
+    summarize
 
+The following objects are masked from 'package:stats':
 
-Create a beautiful table of summarized data
-===
+    filter, lag
 
+The following objects are masked from 'package:base':
 
-```r
-if(!require(gridExtra)){install.packages("gridExtra")}
-require(gridExtra)
-grid.newpage()
-grid.table(head(data.frame(CO2_max_per_plant)))
+    intersect, setdiff, setequal, union
+
+Loading required package: ggplot2
+Quitting from lines 192-205 (dplyr.Rpres) 
+Error: Unknown parameters: fun.y
+In addition: Warning messages:
+1: package 'ggplot2' was built under R version 3.2.3 
+2: `stat` is deprecated 
+3: `position` is deprecated 
+Execution halted
 ```
-
-![plot of chunk unnamed-chunk-12](dplyr-figure/unnamed-chunk-12-1.png) 
-
-Exercise 1
-===
-
-- Calculate the mean for each species value for each dimension of sepals and petals in the `iris` data set
-- Produce an elegant table
-
-
-<div class="centered">
-
-<script src="countdown.js" type="text/javascript"></script>
-<script type="application/javascript">
-var myCountdown1 = new Countdown({
-    							time: 300, 
-									width:150, 
-									height:80, 
-									rangeHi:"minute"	// <- no comma on last item!
-									});
-
-</script>
-
-</div>
-
-
-dplyr mutate data
-===
-
-Calculate deviation from the mean uptake for each plant
-
-
-```r
-CO2_with_deviation <- mutate(CO2_by_Plant_Type_Treatment,
-                               deviation_from_mean=uptake-mean(uptake))
-```
-
-Plot mutated data
-===
-
-
-```r
-CO2.plot <- qplot(data = CO2_with_deviation,
-                  x = conc,
-                  y = deviation_from_mean,
-                  colour = Treatment) + 
-  facet_grid(.~Type)+
-  geom_line(aes(group = Plant))
-print(CO2.plot)
-```
-
-![plot of chunk unnamed-chunk-14](dplyr-figure/unnamed-chunk-14-1.png) 
-
-
-
-Writing your own functions
-===
-
-Calculate the slope and intercept for each plant
-
-
-```r
-intercept_slop <- function(conc, uptake){
-  fit <- lm(uptake~conc)
-  coefficients <- coef(fit)
-  return(data.frame(intercept=coefficients[1],
-                    slope=coefficients[2]))
-}
-```
-
-Using your new function with dplyr
-===
-
-
-```r
-CO2_fit <- summarise(CO2_by_Plant_Type_Treatment,
-                     intercept=intercept_slop(conc, uptake)$intercept,
-                     slope=intercept_slop(conc, uptake)$slope)
-```
-
-Plot the results of your new function
-===
-class: small-code
-
-
-```r
-dodge <- position_dodge(1)
-p <- qplot(data=CO2_fit,
-           x=Type,
-           y=slope,
-           fill=Treatment,
-           geom="bar",
-           stat="summary",
-           fun.y=mean,
-           position=dodge)+
-  stat_summary(fun.data="mean_cl_normal", 
-               geom="errorbar",
-               position=dodge)
-```
-
-***
-
-![plot of chunk unnamed-chunk-18](dplyr-figure/unnamed-chunk-18-1.png) 
-
-Exercise 2
-===
-
-- Use the exercise_data_temp_par.csv file
-- Calculate the deviations from the annual means  
-- Calculate the annual absolute integrated anomaly
-
-
-$$
-\sum_{i=January}^{i=December}\left\lvert x_i- \bar x _{i2002-2014} \right\rvert
-$$
-
-
-Chaining operations
-===
-
-
-`%>%`  allows you to apply multiple functions sequentially  
-(equivalent to "|" in bash)
-
-
-```r
-CO2_by_Plant_Type_Treatment <- group_by(CO2,
-                                        Plant,
-                                        Type,
-                                        Treatment)
-CO2_max_per_plant <- summarise(CO2_by_Plant_Type_Treatment,
-                               max_uptake=max(uptake))
-```
-
-becomes
-
-
-```r
-CO2_max_per_plant <-CO2 %>%
-                      group_by(Plant,
-                                Type,
-                                Treatment)  %>%
-                      summarise(max_uptake=max(uptake)) 
-```
-
-
-
-Exercise 3
-===
-
-- convert code from previous exercises (1 & 2) using `%>%` chaining
-  -convert the `summarise` of the iris data set
-  -convert the `mutate` of the monthly temperature
-
-
-<div class="centered">
-
-<script src="countdown.js" type="text/javascript"></script>
-<script type="application/javascript">
-var myCountdown1 = new Countdown({
-    							time: 300, 
-									width:150, 
-									height:80, 
-									rangeHi:"minute"	// <- no comma on last item!
-									});
-
-</script>
-
-</div>
-
-
-Split verbes
-===
-
-- `filter`
-
-```r
-filter(iris, Sepal.Width==3)
- 
-mtcars[iris$Sepal.Width == 3,]
-```
-
-- `select`
-
-```r
-select(iris, Species)
-iris[,"Species"]
-```
-
-
-```r
-select(iris, starts_with("Petal"))
-```
-
-
-dplyr database
-===
-
-https://cran.rstudio.com/web/packages/dplyr/vignettes/databases.html
-
-create a database
-
-```r
-my_db <- src_sqlite("my_db.sqlite3", create = T)
-```
-
-dplyr database
-===
-
-load data into the database
-
-```r
-CO2_sqlite <- copy_to(my_db,
-                      CO2, 
-                      temporary = FALSE,
-                      indexes = list("Plant",
-                                     "Type",
-                                     "Treatment",
-                                     "conc",
-                                     "uptake"))
-```
-
-dplyr database
-===
-
-use the tables from a database as a regular data.frame
-
-
-```r
-CO2_max_per_plant <-CO2_sqlite %>%
-                      group_by(Plant,
-                                Type,
-                                Treatment)  %>%
-                      summarise(max_uptake=max(uptake)) 
-```
-
-dplyr database
-===
-
-note that `dplyr` will only execute database calls when needed  
-(when manipulated is being called eg. by `print()`)
-
-
-plyr
-===
-
-- Load list of files
-- Produce large number of complex plots
-
-
-plyr
-===
-
-`_input_output_ply` functions:
-
-`ddply`: data.frame in, data.frame out
-can be done in dplyr
-
-`ldply`: list in, data.frame out
-
-`d_ply`: data.frame in, nothing out
-
-
-plyr
-===
-
-
-```r
-__ply(.data, 
-      .variables,
-      .fun = NULL,
-      .progress = "text",
-      .parallel = FALSE,
-      .paropts = NULL)
-```
-
-
-`ldply` for file list loading
-===
-
-How to load and merge into a single data frame
-all files in a directory
-
-
-```r
-file_list <- list.files("./Data/",
-                        ".csv")
-
-path_list <- paste0("./Data/",
-                    file_list)
-
-loaded_data <- ldply(.data=path_list,
-                     function(x){
-                       loaded_data <- read.csv(x)
-                       loaded_data$path <- x
-                       return(loaded_data)
-                     }
-```
-
-Exercise 4
-===
-
-- load all files in `temperature_timeseries` using `ldply()`
-- Calculate the annual absolute integrated anomaly for each site (`mutate`)
-- Plot the annual absolute integrated anomaly for each site (`qplot`)
-
-<div class="centered">
-
-<script src="countdown.js" type="text/javascript"></script>
-<script type="application/javascript">
-var myCountdown1 = new Countdown({
-    							time: 300, 
-									width:150, 
-									height:80, 
-									rangeHi:"minute"	// <- no comma on last item!
-									});
-
-</script>
-
-</div>
-
-
-`d_ply` for data exploration
-===
-
-```r
-d_ply(.data=data,
-      .variables=c(var1,var2),
-      function(subsetdata)plot(y~x,data=subsetdata))
-```
-
-
-`d_ply` for data exploration
-===
-
-Seperate string variable and spreading  (reminder)
-
-
-```r
-require(tidyr)
-
-iris$specimen <- 1:nrow(iris)
-
-long_iris<-gather(iris,"Measurement",
-                  "Value",
-                  Sepal.Length:Petal.Width)
-
-seperated_iris <- separate(long_iris,
-                      Measurement, 
-                      c("Organ", "Dimension"))
-
-wide_iris <- spread(seperated_iris,
-                    Dimension,
-                    Value)
-```
-
-
-`d_ply` for data exploration
-===
-
-
-```r
-d_ply(.data=wide_iris,
-      .variables="Species",
-      function(subsetdata){
-        print(qplot(data=subsetdata,
-                    ymin=I(0),
-                    ymax=Length,
-                    xmin=I(0),
-                    xmax=Width,
-                    xlim=c(0,10),
-                    ylim=c(0,10),
-                    geom="rect",
-                    facets=~specimen,
-                    main=unique(subsetdata$Species),
-                    alpha=I(0.3),
-                    fill=Organ))})
-```
-
-`d_ply` for data exploration
-===
-
-![plot of chunk unnamed-chunk-32](dplyr-figure/unnamed-chunk-32-1.png) ![plot of chunk unnamed-chunk-32](dplyr-figure/unnamed-chunk-32-2.png) ![plot of chunk unnamed-chunk-32](dplyr-figure/unnamed-chunk-32-3.png) 
-
-
-Opportunities
-===
-
-- PhD positions
-- Taught masters and MRes
-  - Tropical marine biology!
-  
-[http://etiennelowdecarie.org](http://etiennelowdecarie.org)
-  
-  
-Please provide feedback
-===
-
-[goo.gl/WzxPuA](http://goo.gl/WzxPuA)
-
-<iframe src="https://docs.google.com/spreadsheets/d/1HLFz-jbeFRMD3DCopQ_AstjecRiZ1WvyIYGouX5IHBU/pubhtml?gid=883453&amp;single=true&amp;widget=true&amp;headers=false" width="400" height="400"></iframe>
