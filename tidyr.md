@@ -133,31 +133,7 @@ var myCountdown2 = new Countdown({
 - extra challenge:  
 use `gather` to produce a data.frame from an image file
 that can be plotted using ggplot
-  - download and plot the red channel of the UQAM logo
   - use the `.nc` of world sea temperature file in the `Data` folder
-  
-Exercise 1
-===
-
-
-```r
-require(png)
-image_data <- readPNG("./Data/logo_uqam.png")
-red <- as.data.frame(image_data[,,1])
-red$y <- as.numeric(rownames(red))
-red_long <- gather(red,"x","value", -y)
-red_long$x <- as.numeric(gsub("V","", red_long$x))
-qplot(data=red_long,
-      x=x,
-      y=-y,
-      fill=value,
-      geom="raster")
-```
-
-Exercise 1
-===
-
-![plot of chunk unnamed-chunk-8](tidyr-figure/unnamed-chunk-8-1.png) 
 
 Going from long to wide
 ===
@@ -450,13 +426,13 @@ left: 70%
 Excellent for exploratory analysis
 
 
+
+
 ```r
-require(ggplot2)
-p <- qplot(data=long_iris,
-           x=Species,
-           y=Value,
-           geom="bar",
-           stat="summary",
+p <- ggplot(data=long_iris,
+            aes(x=Species,
+           y=Value))+
+           geom_bar(stat="summary",
            fun.y="mean",
            fill=I("grey"))+
   stat_summary(fun.data = "mean_cl_boot", geom="errorbar")
@@ -464,7 +440,7 @@ p <- qplot(data=long_iris,
 
 ***
 
-![plot of chunk unnamed-chunk-14](tidyr-figure/unnamed-chunk-14-1.png) 
+![plot of chunk unnamed-chunk-13](tidyr-figure/unnamed-chunk-13-1.png) 
 
 Going long for faceting by variable
 ===
@@ -474,7 +450,7 @@ Going long for faceting by variable
 print(p+facet_grid(.~Measurement))
 ```
 
-![plot of chunk unnamed-chunk-15](tidyr-figure/unnamed-chunk-15-1.png) 
+![plot of chunk unnamed-chunk-14](tidyr-figure/unnamed-chunk-14-1.png) 
 
 
 Going long for faceting by variable
@@ -485,7 +461,7 @@ Going long for faceting by variable
 print(p+facet_grid(Measurement~., scale="free"))
 ```
 
-![plot of chunk unnamed-chunk-16](tidyr-figure/unnamed-chunk-16-1.png) 
+![plot of chunk unnamed-chunk-15](tidyr-figure/unnamed-chunk-15-1.png) 
 
 Exercise 3
 ===
@@ -522,7 +498,7 @@ p <- qplot(data=USArrests_long,
 print(p)
 ```
 
-![plot of chunk unnamed-chunk-17](tidyr-figure/unnamed-chunk-17-1.png) 
+![plot of chunk unnamed-chunk-16](tidyr-figure/unnamed-chunk-16-1.png) 
 
 Seperate string variable
 ===
@@ -549,11 +525,10 @@ Plot seperated iris
 
 
 ```r
-p <- qplot(data=seperated_iris,
-           x=Species,
-           y=Value,
-           geom="bar",
-           stat="summary",
+p <- ggplot(data=seperated_iris,
+           aes(x=Species,
+           y=Value))+
+           geom_bar(stat="summary",
            fun.y="mean",
            fill=I("grey"))+
   stat_summary(fun.data = "mean_cl_boot", 
@@ -565,7 +540,7 @@ p <- qplot(data=seperated_iris,
 
 ***
 
-![plot of chunk unnamed-chunk-21](tidyr-figure/unnamed-chunk-21-1.png) 
+![plot of chunk unnamed-chunk-20](tidyr-figure/unnamed-chunk-20-1.png) 
 
 
 Exercise 4

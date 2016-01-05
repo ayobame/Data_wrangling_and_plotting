@@ -191,12 +191,11 @@ require(ggplot2)
 ```{r fig.width=3, fig.height=3,echo=T}
 dodge <- position_dodge(1)
 
-p <- qplot(data=CO2_max_per_plant,
-           x=Type,
+p <- ggplot(data=CO2_max_per_plant,
+           aes(x=Type,
            y=max_uptake,
-           fill=Treatment,
-           geom="bar",
-           stat="summary",
+           fill=Treatment))+
+           geom_bar(stat="summary",
            fun.y=mean,
            position=dodge)+
   stat_summary(fun.data="mean_cl_normal", 
@@ -300,12 +299,10 @@ class: small-code
 
 ```{r fig.width=3, fig.height=3,echo=T}
 dodge <- position_dodge(1)
-p <- qplot(data=CO2_fit,
-           x=Type,
+p <- ggplot(data=CO2_fit,aes(x=Type,
            y=slope,
-           fill=Treatment,
-           geom="bar",
-           stat="summary",
+           fill=Treatment))+
+           geom_bar(stat="summary",
            fun.y=mean,
            position=dodge)+
   stat_summary(fun.data="mean_cl_normal", 
