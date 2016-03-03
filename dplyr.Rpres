@@ -7,7 +7,6 @@
 dplyr
 ========================================================
 author: Etienne Low-Décarie
-date: October 27 2015
 transition: fade
 
 dplyr and plyr
@@ -20,14 +19,6 @@ img <- readPNG("./dplyr-figure/plyr.png")
  grid.raster(img)
 ```
 
-About you
-===
-
-- do you use `plyr`/`dplyr` already?
-- do you use `for` loops?
-  - in which you select part of your data in each loop `[,]`?
-- do you use `apply`, `lapply`, `sapply`?
-- do you use pivot tables?
 
 
 Split-Apply-Combine
@@ -276,7 +267,7 @@ Writing your own functions
 Calculate the slope and intercept for each plant
 
 ```{r fig.width=3, fig.height=3,echo=T}
-intercept_slop <- function(conc, uptake){
+intercept_slope <- function(conc, uptake){
   fit <- lm(uptake~conc)
   coefficients <- coef(fit)
   return(data.frame(intercept=coefficients[1],
@@ -284,13 +275,15 @@ intercept_slop <- function(conc, uptake){
 }
 ```
 
+note: there is now a better way to do this using require(broom)
+
 Using your new function with dplyr
 ===
 
 ```{r fig.width=3, fig.height=3,echo=T}
 CO2_fit <- summarise(CO2_by_Plant_Type_Treatment,
-                     intercept=intercept_slop(conc, uptake)$intercept,
-                     slope=intercept_slop(conc, uptake)$slope)
+                     intercept=intercept_slope(conc, uptake)$intercept,
+                     slope=intercept_slope(conc, uptake)$slope)
 ```
 
 Plot the results of your new function
@@ -315,6 +308,8 @@ p <- ggplot(data=CO2_fit,aes(x=Type,
 ```{r fig.width=3, fig.height=3,echo=F}
 print(p)
 ```
+
+
 
 Exercise 2
 ===
@@ -356,6 +351,29 @@ CO2_max_per_plant <-CO2 %>%
 ```
 
 
+Do
+===
+
+`do` is like `mutate` or `summarise`, but returns a list of any `R` objects
+
+```{r fig.width=3, fig.height=3,echo=F}
+
+CO2_fit <- CO2_by_Plant_Type_Treatment %>%
+          %>% do(lm(uptake~conc, data=.))
+
+```
+
+
+do and broom
+===
+
+
+```{r fig.width=3, fig.height=3,echo=F}
+require(broom)
+CO2_fit <- CO2_by_Plant_Type_Treatment %>%
+          %>% do(tidy(lm(uptake~conc, data=.)))
+
+```
 
 Exercise 3
 ===
@@ -526,16 +544,10 @@ var myCountdown1 = new Countdown({
 </div>
 
 
-`d_ply` for data exploration
-===
-```{r fig.width=3, fig.height=3,eval=F}
-d_ply(.data=data,
-      .variables=c(var1,var2),
-      function(subsetdata)plot(y~x,data=subsetdata))
-```
 
 
-`d_ply` for data exploration
+
+`do` for data exploration
 ===
 
 Seperate string variable and spreading  (reminder)
@@ -559,14 +571,12 @@ wide_iris <- spread(seperated_iris,
 ```
 
 
-`d_ply` for data exploration
+`do` for data exploration
 ===
 
 ```{r fig.width=3, fig.height=3,echo=T, eval=F}
-d_ply(.data=wide_iris,
-      .variables="Species",
-      function(subsetdata){
-        print(qplot(data=subsetdata,
+list_plots <- wide_iris %>% group_by(Species) %>%
+      do(print(qplot(data=.,
                     ymin=I(0),
                     ymax=Length,
                     xmin=I(0),
@@ -575,28 +585,9 @@ d_ply(.data=wide_iris,
                     ylim=c(0,10),
                     geom="rect",
                     facets=~specimen,
-                    main=unique(subsetdata$Species),
                     alpha=I(0.3),
-                    fill=Organ))})
+                    fill=Organ)))
+
+
 ```
 
-`d_ply` for data exploration
-===
-
-```{r fig.width=3, fig.height=3,echo=F, eval=T}
-d_ply(.data=wide_iris,
-      .variables="Species",
-      function(subsetdata){
-        print(qplot(data=subsetdata,
-                    ymin=I(0),
-                    ymax=Length,
-                    xmin=I(0),
-                    xmax=Width,
-                    xlim=c(0,10),
-                    ylim=c(0,10),
-                    geom="rect",
-                    facets=~specimen,
-                    main=unique(subsetdata$Species),
-                    alpha=I(0.3),
-                    fill=Organ))})
-```

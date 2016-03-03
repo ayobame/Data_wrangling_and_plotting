@@ -8,7 +8,6 @@
 tidyr
 ========================================================
 author: Etienne Low-Décarie
-date: October 27 2015
 transition: zoom
 
 Long vs wide data
@@ -568,3 +567,59 @@ var myCountdown1 = new Countdown({
 </script>
 
 </div>
+
+
+Tidy default R outputs using broom
+===
+
+`tidy` in `broom` gets the coefficients of models into a data.frame
+
+
+```r
+require(broom)
+tidy(lm(Petal.Width~Petal.Length, data=iris))
+```
+
+```
+          term   estimate   std.error statistic      p.value
+1  (Intercept) -0.3630755 0.039761990 -9.131221 4.699798e-16
+2 Petal.Length  0.4157554 0.009582436 43.387237 4.675004e-86
+```
+
+Tidy default R outputs
+===
+
+`glance` gets the overall summary statistics of models into a data.frame
+
+
+```r
+glance(lm(Petal.Width~Petal.Length, data=iris))
+```
+
+```
+  r.squared adj.r.squared     sigma statistic      p.value df   logLik
+1 0.9271098     0.9266173 0.2064843  1882.452 4.675004e-86  2 24.79555
+        AIC       BIC deviance df.residual
+1 -43.59109 -34.55919 6.310096         148
+```
+
+
+Tidy default R outputs
+===
+
+`augment` in adds to the original data.frame the individual values from the model (eg. predicted)
+
+
+```r
+require(broom)
+augmented_iris<- augment(lm(Petal.Width~Petal.Length,
+                            data=iris))
+p <- qplot(data=augmented_iris,
+      x=Petal.Width,
+      y=.fitted)+
+  geom_smooth(method="lm", se=F)
+print(p)
+```
+
+![plot of chunk unnamed-chunk-23](tidyr-figure/unnamed-chunk-23-1.png) 
+

@@ -8,7 +8,6 @@
 tidyr
 ========================================================
 author: Etienne Low-Décarie
-date: October 27 2015
 transition: zoom
 
 Long vs wide data
@@ -361,3 +360,43 @@ var myCountdown1 = new Countdown({
 </script>
 
 </div>
+
+
+Tidy default R outputs using broom
+===
+
+`tidy` in `broom` gets the coefficients of models into a data.frame
+
+```{r fig.width=3, fig.height=3}
+require(broom)
+tidy(lm(Petal.Width~Petal.Length, data=iris))
+
+```
+
+Tidy default R outputs
+===
+
+`glance` gets the overall summary statistics of models into a data.frame
+
+```{r fig.width=3, fig.height=3}
+glance(lm(Petal.Width~Petal.Length, data=iris))
+```
+
+
+Tidy default R outputs
+===
+
+`augment` in adds to the original data.frame the individual values from the model (eg. predicted)
+
+```{r fig.width=3, fig.height=3}
+require(broom)
+augmented_iris<- augment(lm(Petal.Width~Petal.Length,
+                            data=iris))
+p <- qplot(data=augmented_iris,
+      x=Petal.Width,
+      y=.fitted)+
+  geom_smooth(method="lm", se=F)
+print(p)
+
+```
+
