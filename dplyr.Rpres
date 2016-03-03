@@ -482,8 +482,6 @@ can be done in dplyr
 
 `ldply`: list in, data.frame out
 
-`d_ply`: data.frame in, nothing out
-
 
 plyr
 ===
@@ -507,7 +505,7 @@ all files in a directory
 ```{r fig.width=3, fig.height=3,eval=F}
 
 file_list <- list.files("./Data/",
-                        ".csv")
+                        ".txt")
 
 path_list <- paste0("./Data/",
                     file_list)

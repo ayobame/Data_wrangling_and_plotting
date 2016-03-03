@@ -18,7 +18,7 @@ About you
 Material
 ===
 
-To view presentations:
+To view presentations:   
 search: low-decarie wrangling github
 
 [http://low-decarie.github.io/Data_wrangling_and_plotting/#/](http://low-decarie.github.io/Data_wrangling_and_plotting)
