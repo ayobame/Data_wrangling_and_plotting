@@ -7,7 +7,6 @@
 dplyr
 ========================================================
 author: Etienne Low-Décarie
-date: October 27 2015
 transition: fade
 
 dplyr and plyr
@@ -15,14 +14,6 @@ dplyr and plyr
 
 ![plot of chunk unnamed-chunk-1](dplyr-figure/unnamed-chunk-1-1.png) 
 
-About you
-===
-
-- do you use `plyr`/`dplyr` already?
-- do you use `for` loops?
-  - in which you select part of your data in each loop `[,]`?
-- do you use `apply`, `lapply`, `sapply`?
-- do you use pivot tables?
 
 
 Split-Apply-Combine
@@ -156,8 +147,16 @@ group data
 **Caution when working with functions that expect a `data.frame`**
 
 
+```r
+class(CO2_by_Plant_Type_Treatment)
+```
+
 ```
 [1] "grouped_df" "tbl_df"     "tbl"        "data.frame"
+```
+
+```r
+head(as.data.frame(CO2_by_Plant_Type_Treatment))
 ```
 
 ```
@@ -233,12 +232,11 @@ left: 75%
 ```r
 dodge <- position_dodge(1)
 
-p <- qplot(data=CO2_max_per_plant,
-           x=Type,
+p <- ggplot(data=CO2_max_per_plant,
+           aes(x=Type,
            y=max_uptake,
-           fill=Treatment,
-           geom="bar",
-           stat="summary",
+           fill=Treatment))+
+           geom_bar(stat="summary",
            fun.y=mean,
            position=dodge)+
   stat_summary(fun.data="mean_cl_normal", 
@@ -324,7 +322,7 @@ Calculate the slope and intercept for each plant
 
 
 ```r
-intercept_slop <- function(conc, uptake){
+intercept_slope <- function(conc, uptake){
   fit <- lm(uptake~conc)
   coefficients <- coef(fit)
   return(data.frame(intercept=coefficients[1],
@@ -332,14 +330,16 @@ intercept_slop <- function(conc, uptake){
 }
 ```
 
+note: there is now a better way to do this using require(broom)
+
 Using your new function with dplyr
 ===
 
 
 ```r
 CO2_fit <- summarise(CO2_by_Plant_Type_Treatment,
-                     intercept=intercept_slop(conc, uptake)$intercept,
-                     slope=intercept_slop(conc, uptake)$slope)
+                     intercept=intercept_slope(conc, uptake)$intercept,
+                     slope=intercept_slope(conc, uptake)$slope)
 ```
 
 Plot the results of your new function
@@ -349,12 +349,10 @@ class: small-code
 
 ```r
 dodge <- position_dodge(1)
-p <- qplot(data=CO2_fit,
-           x=Type,
+p <- ggplot(data=CO2_fit,aes(x=Type,
            y=slope,
-           fill=Treatment,
-           geom="bar",
-           stat="summary",
+           fill=Treatment))+
+           geom_bar(stat="summary",
            fun.y=mean,
            position=dodge)+
   stat_summary(fun.data="mean_cl_normal", 
@@ -365,6 +363,8 @@ p <- qplot(data=CO2_fit,
 ***
 
 ![plot of chunk unnamed-chunk-18](dplyr-figure/unnamed-chunk-18-1.png) 
+
+
 
 Exercise 2
 ===
@@ -408,258 +408,39 @@ CO2_max_per_plant <-CO2 %>%
 ```
 
 
-
-Exercise 3
+Do
 ===
 
-- convert code from previous exercises (1 & 2) using `%>%` chaining
-  -convert the `summarise` of the iris data set
-  -convert the `mutate` of the monthly temperature
+`do` is like `mutate` or `summarise`, but returns a list of any `R` objects
 
 
-<div class="centered">
-
-<script src="countdown.js" type="text/javascript"></script>
-<script type="application/javascript">
-var myCountdown1 = new Countdown({
-    							time: 300, 
-									width:150, 
-									height:80, 
-									rangeHi:"minute"	// <- no comma on last item!
-									});
-
-</script>
-
-</div>
 
 
-Split verbes
-===
 
-- `filter`
 
-```r
-filter(iris, Sepal.Width==3)
- 
-mtcars[iris$Sepal.Width == 3,]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ```
-
-- `select`
-
-```r
-select(iris, Species)
-iris[,"Species"]
+Error in parse(text = x, srcfile = src) : <text>:3:11: unexpected SPECIAL
+2: CO2_fit <- CO2_by_Plant_Type_Treatment %>%
+3:           %>%
+             ^
 ```
-
-
-```r
-select(iris, starts_with("Petal"))
-```
-
-
-dplyr database
-===
-
-https://cran.rstudio.com/web/packages/dplyr/vignettes/databases.html
-
-create a database
-
-```r
-my_db <- src_sqlite("my_db.sqlite3", create = T)
-```
-
-dplyr database
-===
-
-load data into the database
-
-```r
-CO2_sqlite <- copy_to(my_db,
-                      CO2, 
-                      temporary = FALSE,
-                      indexes = list("Plant",
-                                     "Type",
-                                     "Treatment",
-                                     "conc",
-                                     "uptake"))
-```
-
-dplyr database
-===
-
-use the tables from a database as a regular data.frame
-
-
-```r
-CO2_max_per_plant <-CO2_sqlite %>%
-                      group_by(Plant,
-                                Type,
-                                Treatment)  %>%
-                      summarise(max_uptake=max(uptake)) 
-```
-
-dplyr database
-===
-
-note that `dplyr` will only execute database calls when needed  
-(when manipulated is being called eg. by `print()`)
-
-
-plyr
-===
-
-- Load list of files
-- Produce large number of complex plots
-
-
-plyr
-===
-
-`_input_output_ply` functions:
-
-`ddply`: data.frame in, data.frame out
-can be done in dplyr
-
-`ldply`: list in, data.frame out
-
-`d_ply`: data.frame in, nothing out
-
-
-plyr
-===
-
-
-```r
-__ply(.data, 
-      .variables,
-      .fun = NULL,
-      .progress = "text",
-      .parallel = FALSE,
-      .paropts = NULL)
-```
-
-
-`ldply` for file list loading
-===
-
-How to load and merge into a single data frame
-all files in a directory
-
-
-```r
-file_list <- list.files("./Data/",
-                        ".csv")
-
-path_list <- paste0("./Data/",
-                    file_list)
-
-loaded_data <- ldply(.data=path_list,
-                     function(x){
-                       loaded_data <- read.csv(x)
-                       loaded_data$path <- x
-                       return(loaded_data)
-                     }
-```
-
-Exercise 4
-===
-
-- load all files in `temperature_timeseries` using `ldply()`
-- Calculate the annual absolute integrated anomaly for each site (`mutate`)
-- Plot the annual absolute integrated anomaly for each site (`qplot`)
-
-<div class="centered">
-
-<script src="countdown.js" type="text/javascript"></script>
-<script type="application/javascript">
-var myCountdown1 = new Countdown({
-    							time: 300, 
-									width:150, 
-									height:80, 
-									rangeHi:"minute"	// <- no comma on last item!
-									});
-
-</script>
-
-</div>
-
-
-`d_ply` for data exploration
-===
-
-```r
-d_ply(.data=data,
-      .variables=c(var1,var2),
-      function(subsetdata)plot(y~x,data=subsetdata))
-```
-
-
-`d_ply` for data exploration
-===
-
-Seperate string variable and spreading  (reminder)
-
-
-```r
-require(tidyr)
-
-iris$specimen <- 1:nrow(iris)
-
-long_iris<-gather(iris,"Measurement",
-                  "Value",
-                  Sepal.Length:Petal.Width)
-
-seperated_iris <- separate(long_iris,
-                      Measurement, 
-                      c("Organ", "Dimension"))
-
-wide_iris <- spread(seperated_iris,
-                    Dimension,
-                    Value)
-```
-
-
-`d_ply` for data exploration
-===
-
-
-```r
-d_ply(.data=wide_iris,
-      .variables="Species",
-      function(subsetdata){
-        print(qplot(data=subsetdata,
-                    ymin=I(0),
-                    ymax=Length,
-                    xmin=I(0),
-                    xmax=Width,
-                    xlim=c(0,10),
-                    ylim=c(0,10),
-                    geom="rect",
-                    facets=~specimen,
-                    main=unique(subsetdata$Species),
-                    alpha=I(0.3),
-                    fill=Organ))})
-```
-
-`d_ply` for data exploration
-===
-
-![plot of chunk unnamed-chunk-32](dplyr-figure/unnamed-chunk-32-1.png) ![plot of chunk unnamed-chunk-32](dplyr-figure/unnamed-chunk-32-2.png) ![plot of chunk unnamed-chunk-32](dplyr-figure/unnamed-chunk-32-3.png) 
-
-
-Opportunities
-===
-
-- PhD positions
-- Taught masters and MRes
-  - Tropical marine biology!
-  
-[http://etiennelowdecarie.org](http://etiennelowdecarie.org)
-  
-  
-Please provide feedback
-===
-
-[goo.gl/WzxPuA](http://goo.gl/WzxPuA)
-
-<iframe src="https://docs.google.com/spreadsheets/d/1HLFz-jbeFRMD3DCopQ_AstjecRiZ1WvyIYGouX5IHBU/pubhtml?gid=883453&amp;single=true&amp;widget=true&amp;headers=false" width="400" height="400"></iframe>

@@ -8,7 +8,7 @@ Challenge
 
 We are facing the third global mass bleaching event.
 
-<iframe src="https://docs.google.com" width="400" height="400"></iframe>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/gI6UPqFkJ0k" frameborder="0" allowfullscreen></iframe>
 
 Challenge
 ========================================================
@@ -16,7 +16,7 @@ Challenge
 Try to predict locations or times of mass coral bleaching events using remotly sensed data available on Giovanni (1 long term average and one year of bleaching data provided), ReefBase data (a cleaned version of the bleaching data is provided) and data from published studies.
 
 Some derived variables used to predict bleaching are provided in
-Maina, J. et al., 2008. Modelling susceptibility of coral reefs to environmental stress using remote sensing data and GIS models. Ecological Modelling, 212(3-4), pp.180–199. Available at: http://linkinghub.elsevier.com/retrieve/pii/S0304380007005285.
+Maina, J. et al., 2008. Modelling susceptibility of coral reefs to environmental stress using remote sensing data and GIS models. Ecological Modelling, 212(3-4), pp.180–199. http://linkinghub.elsevier.com/retrieve/pii/S0304380007005285
 
 Steps
 ========================================================
@@ -33,9 +33,9 @@ More
 
 Find dojos fun?  Want to learn more?
 
-Join and partake in the Montreal R User group [link]
+Join and partake in the [Montreal R User group](http://www.meetup.com/Montreal-R-User-Group/)
 
-QCBS R workshops [link]
+[QCBS R workshops](http://qcbs.ca/training/qcbs-r-workshop-series/)
 
 
 Please provide feedback

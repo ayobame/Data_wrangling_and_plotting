@@ -7,107 +7,25 @@
 ggplot2
 ========================================================
 author: Etienne Low-Décarie
-date: October 27 2015
 transition: rotate
 
-Waiting around?
-===
-class: small-code
-
-Let R impress you:
-
-```r
-demo(package = .packages(all.available = TRUE))
-```
-- you will get a text file with all available demos
-- choose one of interest 
-- if needed load its package
-
-***
-
-- type it in the demo brackets
-- example
-
-```r
-library(googleVis)
-demo(smooth)
-```
-- notice it shows you the code that creates the demo!
-- look at packages on [crantastic.org](http://crantastic.org)
-
-
-Tell me about you
+About you
 ===
 
-- Have you created a plot?
-- With what data?
-- What kind of plot?
-- Have plotted with R?
-- used ggplot?
-- How many variables do you usually need to put into a plot?
-- Do you need to produce maps?
-- Have you used stackoverflow?
-- Are you in buddy pairs?
-- Who uses Rstudio as their IDE?
-
-Outline
-===
-
-- 09:00-11:00 ggplot2
-- 11:00-13:30 lunch (potential to work on challenge)
-- 13:30-14:00 tidyr
-- 14:00-15:30 dplyr
-- 15:30-16:30 Maps using ggplot/ggmap
-- 16:30-17:30 Coding dojo
-
-How we will work
-===
-
-![How we will work](./ggplot2_images/how we work.png)
 
 
-
-A few pet peeves
-===
-
-- Always work from a script
-- Use carriage returns and indentation
-
-
-```r
-object <- function(argument1="value1",
-                   argument2="value2",
-                   argument3="value3")
-```
-
-- Create your own new script
-  + refer to provided code only if needed
-  + don't just copy paste from the presentation
-
-
-
-
-A few preferences
-===
-
-- Use RStudio
-  - Use RStudio projects (or R package etc.)
-- Craete organized folder structure
-  - Data
-  - Plots
-  - Scripts
-  - Output
-  - etc
 
 Material
 ===
 
-To view presentations:  
+To view presentations:   
+search: low-decarie wrangling github
+
 [http://low-decarie.github.io/Data_wrangling_and_plotting/#/](http://low-decarie.github.io/Data_wrangling_and_plotting)
 
 To view code that generated presentations:  
 https://github.com/low-decarie/Data_wrangling_and_plotting  
-You can look at the `.Rpres` files that generated these presentations
+You can look at the `.Rpres` files that generated these presentations  
 You can run the code in these presentation (even all of it, using Chunks>Run All)
 
 There is a folder called `./Data/` that contains data relavant to some of the exercises
@@ -133,17 +51,6 @@ Beautiful and flexible!
 
 
 
-
-
-Install/load ggplot2
-===
-
-
-```r
-if(!require(ggplot2)){install.packages("ggplot2")}
-require(ggplot2)
-```
-
 Outline (ggplot2)
 ===
 
@@ -157,15 +64,46 @@ Outline (ggplot2)
 3. Saving a plot
   + Exercise 3
   + Challenge
-    
+  
 ***
-
-(PM?)  
 
 4. Expanding ggplot    
 5. Fine tuning your plot
     + colours
     + themes
+6. Maps
+
+
+A few pet peeves
+===
+
+- Always work from a script
+- Use carriage returns and indentation
+
+
+```r
+object <- function(argument1="value1",
+                   argument2="value2",
+                   argument3="value3")
+```
+
+- Create your own new script
+  + refer to provided code only if needed
+  + don't just copy paste from the presentation
+
+
+
+
+
+Install/load ggplot2
+===
+
+
+```r
+if(!require(ggplot2)){install.packages("ggplot2")}
+require(ggplot2)
+```
+
 
 
 
@@ -182,7 +120,7 @@ qplot(data=iris,
 
 ***
 
-![plot of chunk unnamed-chunk-8](ggplot2-figure/unnamed-chunk-8-1.png) 
+![plot of chunk unnamed-chunk-6](ggplot2-figure/unnamed-chunk-6-1.png) 
 
 
 Categorical x-axis  
@@ -194,7 +132,7 @@ qplot(data=iris,
       y=Sepal.Width)
 ```
 
-![plot of chunk unnamed-chunk-9](ggplot2-figure/unnamed-chunk-9-1.png) 
+![plot of chunk unnamed-chunk-7](ggplot2-figure/unnamed-chunk-7-1.png) 
 
 Less basic scatter plot
 ===
@@ -227,7 +165,9 @@ qplot(data=iris,
       main="Sepal dimensions")
 ```
 
-![plot of chunk unnamed-chunk-11](ggplot2-figure/unnamed-chunk-11-1.png) 
+![plot of chunk unnamed-chunk-9](ggplot2-figure/unnamed-chunk-9-1.png) 
+
+
 
 Exercise 1
 ===
@@ -301,24 +241,26 @@ Editing an element produces a new graph
 e.g. just change the coordinate system
 
 
-![plot of chunk unnamed-chunk-12](ggplot2-figure/unnamed-chunk-12-1.png) ![plot of chunk unnamed-chunk-12](ggplot2-figure/unnamed-chunk-12-2.png) 
+![plot of chunk unnamed-chunk-10](ggplot2-figure/unnamed-chunk-10-1.png) ![plot of chunk unnamed-chunk-10](ggplot2-figure/unnamed-chunk-10-2.png) 
 
 
 How it works
 ===
 
-1. create a simple plot object
+- 1. create a simple plot object
 
 ```r
 plot.object<-qplot()
+or
+plot.object<-ggplot()
 ```
-2. add graphical layers/complexity
+- 2. add graphical layers/complexity
 
 ```r
 plot.object<-plot.object+layer()
 ```
-3. repeat step 2 until satisfied  
-4. print your object to screen (or to graphical device)  
+- 3. repeat step 2 until satisfied  
+- 4. print your object to screen (or to graphical device)  
 
 ```r
 print(plot.object)
@@ -340,7 +282,28 @@ basic.plot<-qplot(data=iris,
 print(basic.plot)
 ```
 
-![plot of chunk unnamed-chunk-16](ggplot2-figure/unnamed-chunk-16-1.png) 
+![plot of chunk unnamed-chunk-14](ggplot2-figure/unnamed-chunk-14-1.png) 
+
+
+Using ggplot function
+===
+
+more powerful, more complicated
+Note: aes() and geom_point()
+
+
+```r
+basic.plot<- ggplot(data=iris,
+               aes(x=Sepal.Length,
+                  xlab="Sepal Width (mm)",
+                  y=Sepal.Width,
+                  ylab="Sepal Length (mm)",
+                  main="Sepal dimensions"))+
+  geom_point()
+```
+now required to use stat=""
+
+
 
 Scatter plot with colour and shape
 ===
@@ -351,10 +314,10 @@ basic.plot <- basic.plot+
               aes(colour=Species,
                   shape=Species)
 
-			print(basic.plot)
+print(basic.plot)
 ```
 
-![plot of chunk unnamed-chunk-17](ggplot2-figure/unnamed-chunk-17-1.png) 
+![plot of chunk unnamed-chunk-16](ggplot2-figure/unnamed-chunk-16-1.png) 
 
 
 Scatter plot with linear regression
@@ -369,7 +332,7 @@ linear.smooth.plot <- basic.plot+
                          print(linear.smooth.plot)
 ```
 
-![plot of chunk unnamed-chunk-18](ggplot2-figure/unnamed-chunk-18-1.png) 
+![plot of chunk unnamed-chunk-17](ggplot2-figure/unnamed-chunk-17-1.png) 
 
 
 Exercise 2
@@ -414,7 +377,7 @@ CO2.plot<-qplot(data=CO2,
 print(CO2.plot)
 ```
 
-![plot of chunk unnamed-chunk-19](ggplot2-figure/unnamed-chunk-19-1.png) 
+![plot of chunk unnamed-chunk-18](ggplot2-figure/unnamed-chunk-18-1.png) 
 
 Facets
 ===
@@ -431,7 +394,7 @@ CO2.plot<-CO2.plot+facet_grid(.~Type)
 print(CO2.plot)
 ```
 
-![plot of chunk unnamed-chunk-21](ggplot2-figure/unnamed-chunk-21-1.png) 
+![plot of chunk unnamed-chunk-20](ggplot2-figure/unnamed-chunk-20-1.png) 
 
 Groups
 ===
@@ -443,7 +406,7 @@ Problems when adding the geom_line
 print(CO2.plot+geom_line())
 ```
 
-![plot of chunk unnamed-chunk-22](ggplot2-figure/unnamed-chunk-22-1.png) 
+![plot of chunk unnamed-chunk-21](ggplot2-figure/unnamed-chunk-21-1.png) 
 
 Groups
 ===
@@ -456,14 +419,14 @@ CO2.plot<-CO2.plot+geom_line(aes(group=Plant))
 print(CO2.plot)
 ```
 
-![plot of chunk unnamed-chunk-23](ggplot2-figure/unnamed-chunk-23-1.png) 
+![plot of chunk unnamed-chunk-22](ggplot2-figure/unnamed-chunk-22-1.png) 
 
 Available elements
 ===
 
 http://docs.ggplot2.org
 
-<iframe src="http://docs.ggplot2.org" width="300">
+<iframe src="http://docs.ggplot2.org" width="1000" height="800">
   <p>Your browser does not support iframes.</p>
 </iframe>
 
@@ -472,7 +435,7 @@ Resources
 
 cheatsheets: https://www.rstudio.com/resources/cheatsheets/
 
-<iframe src="https://www.rstudio.com/resources/cheatsheets/" width="300">
+<iframe src="https://www.rstudio.com/resources/cheatsheets/" width="1000"  height="800">
   <p>Your browser does not support iframes.</p>
 </iframe>
 
@@ -542,7 +505,7 @@ base R `plot` function has methods for many different object types
 plot(iris)
 ```
 
-![plot of chunk unnamed-chunk-26](ggplot2-figure/unnamed-chunk-26-1.png) 
+![plot of chunk unnamed-chunk-25](ggplot2-figure/unnamed-chunk-25-1.png) 
 
 
 Using the right tool for the right situation
@@ -552,17 +515,24 @@ base R `plot` function has methods for many different object types
 
 
 ```r
-lm.SR <- lm(sr ~ pop15 + pop75 + dpi + ddpi, data = LifeCycleSavings)
+lm.SR <- lm(sr ~ pop15 + pop75 + dpi + ddpi,
+            data = LifeCycleSavings)
 plot(lm.SR)
 ```
 
-![plot of chunk unnamed-chunk-27](ggplot2-figure/unnamed-chunk-27-1.png) ![plot of chunk unnamed-chunk-27](ggplot2-figure/unnamed-chunk-27-2.png) ![plot of chunk unnamed-chunk-27](ggplot2-figure/unnamed-chunk-27-3.png) ![plot of chunk unnamed-chunk-27](ggplot2-figure/unnamed-chunk-27-4.png) 
+![plot of chunk unnamed-chunk-26](ggplot2-figure/unnamed-chunk-26-1.png) ![plot of chunk unnamed-chunk-26](ggplot2-figure/unnamed-chunk-26-2.png) ![plot of chunk unnamed-chunk-26](ggplot2-figure/unnamed-chunk-26-3.png) ![plot of chunk unnamed-chunk-26](ggplot2-figure/unnamed-chunk-26-4.png) 
 
 
 Challenge
 ===
 
-Find an interesting data set on Dryad.org, reproduce a figure from the associated article using ggplot2
+Find an interesting data set on Dryad.org, reproduce a figure from the article using ggplot2
+
+Example: try to reproduce figure 1 and 4 from
+Low-Décarie, E., Fussmann, G. F., Bell, G., Low-Decarie, E., Fussmann, G. F., Bell, G., Low-Décarie, E., Fussmann, G. F. & Bell, G. 2014 Aquatic primary production in a high-CO2 world. Trends Ecol. Evol. 29, 1–10.    
+[paper](http://www.sciencedirect.com/science/article/pii/S0169534714000433)  
+[data](http://datadryad.org/handle/10255/dryad.60481)  
+full scripts also available on github (old ugly code!)
 
 
 Extending ggplot
@@ -589,7 +559,7 @@ autoplot(lm.SR)
 
 ***
 
-![plot of chunk unnamed-chunk-29](ggplot2-figure/unnamed-chunk-29-1.png) 
+![plot of chunk unnamed-chunk-28](ggplot2-figure/unnamed-chunk-28-1.png) 
 
 ===
 
@@ -621,7 +591,7 @@ sol <- cca(dune ~ A1 + Management,
 autoplot(sol)
 ```
 
-![plot of chunk unnamed-chunk-32](ggplot2-figure/unnamed-chunk-32-1.png) 
+![plot of chunk unnamed-chunk-31](ggplot2-figure/unnamed-chunk-31-1.png) 
 
 Vegan users
 ===
@@ -631,7 +601,7 @@ Vegan users
 autoplot(sol) + theme_bw()
 ```
 
-![plot of chunk unnamed-chunk-33](ggplot2-figure/unnamed-chunk-33-1.png) 
+![plot of chunk unnamed-chunk-32](ggplot2-figure/unnamed-chunk-32-1.png) 
 
 
 
@@ -645,7 +615,7 @@ base R `plot` function has methods for many different object types
 normal.plot <- plot(sol)
 ```
 
-![plot of chunk unnamed-chunk-34](ggplot2-figure/unnamed-chunk-34-1.png) 
+![plot of chunk unnamed-chunk-33](ggplot2-figure/unnamed-chunk-33-1.png) 
 
 
 Fine tunning: Scales
@@ -661,7 +631,7 @@ CO2.plot +
                      trans="log10")
 ```
 
-![plot of chunk unnamed-chunk-35](ggplot2-figure/unnamed-chunk-35-1.png) 
+![plot of chunk unnamed-chunk-34](ggplot2-figure/unnamed-chunk-34-1.png) 
 
 Fine tunning: Scales
 ===
@@ -672,7 +642,7 @@ CO2.plot+
   scale_colour_brewer()
 ```
 
-![plot of chunk unnamed-chunk-36](ggplot2-figure/unnamed-chunk-36-1.png) 
+![plot of chunk unnamed-chunk-35](ggplot2-figure/unnamed-chunk-35-1.png) 
 
 Fine tunning: Scales
 ===
@@ -684,7 +654,7 @@ CO2.plot+
                                "chilled"="blue"))
 ```
 
-![plot of chunk unnamed-chunk-37](ggplot2-figure/unnamed-chunk-37-1.png) 
+![plot of chunk unnamed-chunk-36](ggplot2-figure/unnamed-chunk-36-1.png) 
 
 
 Fine tunning: Scales
@@ -717,7 +687,7 @@ basic.plot +
   scale_color_manual(values = wesanderson::wes_palette("Darjeeling",3)) 
 ```
 
-![plot of chunk unnamed-chunk-39](ggplot2-figure/unnamed-chunk-39-1.png) 
+![plot of chunk unnamed-chunk-38](ggplot2-figure/unnamed-chunk-38-1.png) 
 
 Fine tuning: Multiple plots
 ===
@@ -731,7 +701,7 @@ require(gridExtra)
 grid.arrange(basic.plot, CO2.plot)
 ```
 
-![plot of chunk unnamed-chunk-40](ggplot2-figure/unnamed-chunk-40-1.png) 
+![plot of chunk unnamed-chunk-39](ggplot2-figure/unnamed-chunk-39-1.png) 
 
 Fine tuning: Multiple plots
 ===
@@ -760,7 +730,7 @@ grid.arrange(basic.plot.table,
              ncol=1)
 ```
 
-![plot of chunk unnamed-chunk-42](ggplot2-figure/unnamed-chunk-42-1.png) 
+![plot of chunk unnamed-chunk-41](ggplot2-figure/unnamed-chunk-41-1.png) 
 
 Fine tuning: Themes
 ===
@@ -777,7 +747,7 @@ grey <- basic.plot+theme_bw()
 grid.arrange(basic.plot, bw, grey, nrow=1)
 ```
 
-![plot of chunk unnamed-chunk-43](ggplot2-figure/unnamed-chunk-43-1.png) 
+![plot of chunk unnamed-chunk-42](ggplot2-figure/unnamed-chunk-42-1.png) 
 
 
 Fine tuning: Themes
@@ -793,16 +763,16 @@ mytheme_plot <- basic.plot + mytheme
 grid.arrange(basic.plot, mytheme_plot, nrow=1)
 ```
 
-![plot of chunk unnamed-chunk-44](ggplot2-figure/unnamed-chunk-44-1.png) 
+![plot of chunk unnamed-chunk-43](ggplot2-figure/unnamed-chunk-43-1.png) 
 
 
 Challenge
 ===
 
-Find an interesting data set on Dryad.org, reproduce a figure from the article using ggplot2
+Using figure from previous challenge (or other dryad.org paper/data), edit figure to match a journal's style requirements
 
-Example: try to reproduce figure Figure 1A from  
-Dutilleul, M. et al., 2014. Rapid evolutionary responses of life history traits to different experimentally-induced pollutions in Caenorhabditis elegans. BMC evolutionary biology, 14(1), p.252.  
-[paper](http://www.biomedcentral.com/content/pdf/s12862-014-0252-6.pdf)  
-[data](https://datadryad.org/bitstream/handle/10255/dryad.71040/multiG2.csv?sequence=1)  
-(author from UQAM)
+Example: try to reproduce Figure 3 in:
+Lucek K, Sivasundar A, Roy D, Seehausen O (2013) Repeated and predictable patterns of ecotypic differentiation during a biological invasion: lake-stream divergence in parapatric Swiss stickleback. Journal of Evolutionary Biology 26(12): 2691–2709. 
+
+[paper](http://dx.doi.org/10.1111/jeb.12267)  
+[data](http://dx.doi.org/10.5061/dryad.0nh60)  

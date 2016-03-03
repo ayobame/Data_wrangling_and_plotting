@@ -7,107 +7,25 @@
 ggplot2
 ========================================================
 author: Etienne Low-Décarie
-date: October 27 2015
 transition: rotate
 
-Waiting around?
-===
-class: small-code
-
-Let R impress you:
-```{r eval=FALSE}
-demo(package = .packages(all.available = TRUE))
-```
-- you will get a text file with all available demos
-- choose one of interest 
-- if needed load its package
-
-***
-
-- type it in the demo brackets
-- example
-```{r eval=FALSE}
-library(googleVis)
-demo(smooth)
-```
-- notice it shows you the code that creates the demo!
-- look at packages on [crantastic.org](http://crantastic.org)
-
-
-Tell me about you
+About you
 ===
 
-- Have you created a plot?
-- With what data?
-- What kind of plot?
-- Have plotted with R?
-- used ggplot?
-- How many variables do you usually need to put into a plot?
-- Do you need to produce maps?
-- Have you used stackoverflow?
-- Are you in buddy pairs?
-- Who uses Rstudio as their IDE?
-
-Outline
-===
-
-- 09:00-11:00 ggplot2
-- 11:00-13:30 lunch (potential to work on challenge)
-- 13:30-14:00 tidyr
-- 14:00-15:30 dplyr
-- 15:30-16:30 Maps using ggplot/ggmap
-- 16:30-17:30 Coding dojo
-
-How we will work
-===
-
-![How we will work](./ggplot2_images/how we work.png)
 
 
-
-A few pet peeves
-===
-
-- Always work from a script
-- Use carriage returns and indentation
-
-```{r eval=F}
-object <- function(argument1="value1",
-                   argument2="value2",
-                   argument3="value3")
-```
-
-- Create your own new script
-  + refer to provided code only if needed
-  + don't just copy paste from the presentation
-
-```{r fig.width=7, fig.height=6,echo=FALSE}
-library(png)
-library(grid)
-```
-
-
-A few preferences
-===
-
-- Use RStudio
-  - Use RStudio projects (or R package etc.)
-- Craete organized folder structure
-  - Data
-  - Plots
-  - Scripts
-  - Output
-  - etc
 
 Material
 ===
 
-To view presentations:  
+To view presentations:   
+search: low-decarie wrangling github
+
 [http://low-decarie.github.io/Data_wrangling_and_plotting/#/](http://low-decarie.github.io/Data_wrangling_and_plotting)
 
 To view code that generated presentations:  
 https://github.com/low-decarie/Data_wrangling_and_plotting  
-You can look at the `.Rpres` files that generated these presentations
+You can look at the `.Rpres` files that generated these presentations  
 You can run the code in these presentation (even all of it, using Chunks>Run All)
 
 There is a folder called `./Data/` that contains data relavant to some of the exercises
@@ -136,16 +54,6 @@ Beautiful and flexible!
 #  grid.raster(img)
 ```
 
-
-
-Install/load ggplot2
-===
-
-```{r}
-if(!require(ggplot2)){install.packages("ggplot2")}
-require(ggplot2)
-```
-
 Outline (ggplot2)
 ===
 
@@ -159,15 +67,47 @@ Outline (ggplot2)
 3. Saving a plot
   + Exercise 3
   + Challenge
-    
+  
 ***
-
-(PM?)  
 
 4. Expanding ggplot    
 5. Fine tuning your plot
     + colours
     + themes
+6. Maps
+
+
+A few pet peeves
+===
+
+- Always work from a script
+- Use carriage returns and indentation
+
+```{r eval=F}
+object <- function(argument1="value1",
+                   argument2="value2",
+                   argument3="value3")
+```
+
+- Create your own new script
+  + refer to provided code only if needed
+  + don't just copy paste from the presentation
+
+```{r fig.width=7, fig.height=6,echo=FALSE}
+library(png)
+library(grid)
+```
+
+
+
+Install/load ggplot2
+===
+
+```{r}
+if(!require(ggplot2)){install.packages("ggplot2")}
+require(ggplot2)
+```
+
 
 
 
@@ -226,6 +166,8 @@ qplot(data=iris,
       ylab="Sepal Length (mm)",
       main="Sepal dimensions")
 ```
+
+
 
 Exercise 1
 ===
@@ -303,13 +245,11 @@ e.g. just change the coordinate system
 DF <- data.frame(variable = LETTERS[1:10], value = sample(10,
                                                  replace = TRUE))
 
-p_bar <- qplot(data=DF,
-              x=variable,
+p_bar <- ggplot(data=DF, 
+                aes(x=variable,
               fill=variable,
-              y=value,
-              stat="identity",
-              geom="bar")
-
+              y=value))+
+                geom_bar(stat="identity")
 print(p_bar)
 
 p_polar <- p_bar + coord_polar()
@@ -321,16 +261,18 @@ print(p_polar)
 How it works
 ===
 
-1. create a simple plot object
+- 1. create a simple plot object
 ```{r eval=FALSE}
 plot.object<-qplot()
+or
+plot.object<-ggplot()
 ```
-2. add graphical layers/complexity
+- 2. add graphical layers/complexity
 ```{r eval=FALSE}
 plot.object<-plot.object+layer()
 ```
-3. repeat step 2 until satisfied  
-4. print your object to screen (or to graphical device)  
+- 3. repeat step 2 until satisfied  
+- 4. print your object to screen (or to graphical device)  
 ```{r  eval=FALSE}
 print(plot.object)
 ```
@@ -350,6 +292,26 @@ basic.plot<-qplot(data=iris,
 print(basic.plot)
 ```
 
+
+Using ggplot function
+===
+
+more powerful, more complicated
+Note: aes() and geom_point()
+
+```{r fig.width=4, fig.height=4}
+basic.plot<- ggplot(data=iris,
+               aes(x=Sepal.Length,
+                  xlab="Sepal Width (mm)",
+                  y=Sepal.Width,
+                  ylab="Sepal Length (mm)",
+                  main="Sepal dimensions"))+
+  geom_point()
+```
+now required to use stat=""
+
+
+
 Scatter plot with colour and shape
 ===
 
@@ -358,7 +320,7 @@ basic.plot <- basic.plot+
               aes(colour=Species,
                   shape=Species)
 
-			print(basic.plot)
+print(basic.plot)
 ```
 
 
@@ -406,7 +368,7 @@ var myCountdown3 = new Countdown({
 Using facets and groups: the basic plot
 ===
 
-```{r fig.width=3, fig.height=3,echo=T}
+```{r fig.width=8, fig.height=4,echo=T}
 CO2.plot<-qplot(data=CO2,
                 x=conc,
                 y=uptake,
@@ -423,7 +385,7 @@ plot.object<-plot.object + facet_grid(rows~columns)
 ```
                          
                          
-```{r fig.width=3, fig.height=3,echo=T}
+```{r fig.width=8, fig.height=4,echo=T}
 CO2.plot<-CO2.plot+facet_grid(.~Type)
 print(CO2.plot)
 ```
@@ -433,7 +395,7 @@ Groups
 
 Problems when adding the geom_line
 
-```{r fig.width=3, fig.height=3,echo=T}
+```{r fig.width=8, fig.height=4,echo=T}
 print(CO2.plot+geom_line())
 ```
 
@@ -442,7 +404,7 @@ Groups
 
 Solution: specify groups
 
-```{r fig.width=3, fig.height=3,echo=T}
+```{r fig.width=8, fig.height=4,echo=T}
 CO2.plot<-CO2.plot+geom_line(aes(group=Plant))
 print(CO2.plot)
 ```
@@ -452,7 +414,7 @@ Available elements
 
 http://docs.ggplot2.org
 
-<iframe src="http://docs.ggplot2.org" width="300">
+<iframe src="http://docs.ggplot2.org" width="1000" height="800">
   <p>Your browser does not support iframes.</p>
 </iframe>
 
@@ -461,7 +423,7 @@ Resources
 
 cheatsheets: https://www.rstudio.com/resources/cheatsheets/
 
-<iframe src="https://www.rstudio.com/resources/cheatsheets/" width="300">
+<iframe src="https://www.rstudio.com/resources/cheatsheets/" width="1000"  height="800">
   <p>Your browser does not support iframes.</p>
 </iframe>
 
@@ -535,7 +497,8 @@ Using the right tool for the right situation
 base R `plot` function has methods for many different object types
 
 ```{r fig.width=3, fig.height=3,echo=T}
-lm.SR <- lm(sr ~ pop15 + pop75 + dpi + ddpi, data = LifeCycleSavings)
+lm.SR <- lm(sr ~ pop15 + pop75 + dpi + ddpi,
+            data = LifeCycleSavings)
 plot(lm.SR)
 ```
 
@@ -543,7 +506,13 @@ plot(lm.SR)
 Challenge
 ===
 
-Find an interesting data set on Dryad.org, reproduce a figure from the associated article using ggplot2
+Find an interesting data set on Dryad.org, reproduce a figure from the article using ggplot2
+
+Example: try to reproduce figure 1 and 4 from
+Low-Décarie, E., Fussmann, G. F., Bell, G., Low-Decarie, E., Fussmann, G. F., Bell, G., Low-Décarie, E., Fussmann, G. F. & Bell, G. 2014 Aquatic primary production in a high-CO2 world. Trends Ecol. Evol. 29, 1–10.    
+[paper](http://www.sciencedirect.com/science/article/pii/S0169534714000433)  
+[data](http://datadryad.org/handle/10255/dryad.60481)  
+full scripts also available on github (old ugly code!)
 
 
 Extending ggplot
@@ -745,10 +714,10 @@ grid.arrange(basic.plot, mytheme_plot, nrow=1)
 Challenge
 ===
 
-Find an interesting data set on Dryad.org, reproduce a figure from the article using ggplot2
+Using figure from previous challenge (or other dryad.org paper/data), edit figure to match a journal's style requirements
 
-Example: try to reproduce figure Figure 1A from  
-Dutilleul, M. et al., 2014. Rapid evolutionary responses of life history traits to different experimentally-induced pollutions in Caenorhabditis elegans. BMC evolutionary biology, 14(1), p.252.  
-[paper](http://www.biomedcentral.com/content/pdf/s12862-014-0252-6.pdf)  
-[data](https://datadryad.org/bitstream/handle/10255/dryad.71040/multiG2.csv?sequence=1)  
-(author from UQAM)
+Example: try to reproduce Figure 3 in:
+Lucek K, Sivasundar A, Roy D, Seehausen O (2013) Repeated and predictable patterns of ecotypic differentiation during a biological invasion: lake-stream divergence in parapatric Swiss stickleback. Journal of Evolutionary Biology 26(12): 2691–2709. 
+
+[paper](http://dx.doi.org/10.1111/jeb.12267)  
+[data](http://dx.doi.org/10.5061/dryad.0nh60)  
