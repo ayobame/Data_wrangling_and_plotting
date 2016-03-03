@@ -7,25 +7,10 @@
 ggplot2
 ========================================================
 author: Etienne Low-Décarie
-date: October 27 2015
 transition: rotate
 
-A few pet peeves
+About you
 ===
-
-- Always work from a script
-- Use carriage returns and indentation
-
-
-```r
-object <- function(argument1="value1",
-                   argument2="value2",
-                   argument3="value3")
-```
-
-- Create your own new script
-  + refer to provided code only if needed
-  + don't just copy paste from the presentation
 
 
 
@@ -33,7 +18,9 @@ object <- function(argument1="value1",
 Material
 ===
 
-To view presentations:  
+To view presentations:   
+search: low-decarie wrangling github
+
 [http://low-decarie.github.io/Data_wrangling_and_plotting/#/](http://low-decarie.github.io/Data_wrangling_and_plotting)
 
 To view code that generated presentations:  
@@ -64,17 +51,6 @@ Beautiful and flexible!
 
 
 
-
-
-Install/load ggplot2
-===
-
-
-```r
-if(!require(ggplot2)){install.packages("ggplot2")}
-require(ggplot2)
-```
-
 Outline (ggplot2)
 ===
 
@@ -88,16 +64,46 @@ Outline (ggplot2)
 3. Saving a plot
   + Exercise 3
   + Challenge
-    
+  
 ***
-
-Tomorrow  
 
 4. Expanding ggplot    
 5. Fine tuning your plot
     + colours
     + themes
 6. Maps
+
+
+A few pet peeves
+===
+
+- Always work from a script
+- Use carriage returns and indentation
+
+
+```r
+object <- function(argument1="value1",
+                   argument2="value2",
+                   argument3="value3")
+```
+
+- Create your own new script
+  + refer to provided code only if needed
+  + don't just copy paste from the presentation
+
+
+
+
+
+Install/load ggplot2
+===
+
+
+```r
+if(!require(ggplot2)){install.packages("ggplot2")}
+require(ggplot2)
+```
+
 
 
 
@@ -241,22 +247,20 @@ e.g. just change the coordinate system
 How it works
 ===
 
-1. create a simple plot object
+- 1. create a simple plot object
 
 ```r
 plot.object<-qplot()
-
 or
-
 plot.object<-ggplot()
 ```
-2. add graphical layers/complexity
+- 2. add graphical layers/complexity
 
 ```r
 plot.object<-plot.object+layer()
 ```
-3. repeat step 2 until satisfied  
-4. print your object to screen (or to graphical device)  
+- 3. repeat step 2 until satisfied  
+- 4. print your object to screen (or to graphical device)  
 
 ```r
 print(plot.object)
@@ -310,7 +314,7 @@ basic.plot <- basic.plot+
               aes(colour=Species,
                   shape=Species)
 
-			print(basic.plot)
+print(basic.plot)
 ```
 
 ![plot of chunk unnamed-chunk-16](ggplot2-figure/unnamed-chunk-16-1.png) 
@@ -528,7 +532,7 @@ Example: try to reproduce figure 1 and 4 from
 Low-Décarie, E., Fussmann, G. F., Bell, G., Low-Decarie, E., Fussmann, G. F., Bell, G., Low-Décarie, E., Fussmann, G. F. & Bell, G. 2014 Aquatic primary production in a high-CO2 world. Trends Ecol. Evol. 29, 1–10.    
 [paper](http://www.sciencedirect.com/science/article/pii/S0169534714000433)  
 [data](http://datadryad.org/handle/10255/dryad.60481)  
-full scripts also available on github
+full scripts also available on github (old ugly code!)
 
 
 Extending ggplot
@@ -767,7 +771,8 @@ Challenge
 
 Using figure from previous challenge (or other dryad.org paper/data), edit figure to match a journal's style requirements
 
-Example: try to reproduce figure Figure 1A from  
-Dutilleul, M. et al., 2014. Rapid evolutionary responses of life history traits to different experimentally-induced pollutions in Caenorhabditis elegans. BMC evolutionary biology, 14(1), p.252.  
-[paper](http://www.biomedcentral.com/content/pdf/s12862-014-0252-6.pdf)  
-[data](https://datadryad.org/bitstream/handle/10255/dryad.71040/multiG2.csv?sequence=1)  
+Example: try to reproduce Figure 3 in:
+Lucek K, Sivasundar A, Roy D, Seehausen O (2013) Repeated and predictable patterns of ecotypic differentiation during a biological invasion: lake-stream divergence in parapatric Swiss stickleback. Journal of Evolutionary Biology 26(12): 2691–2709. 
+
+[paper](http://dx.doi.org/10.1111/jeb.12267)  
+[data](http://dx.doi.org/10.5061/dryad.0nh60)  
