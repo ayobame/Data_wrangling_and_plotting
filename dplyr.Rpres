@@ -359,7 +359,7 @@ Do
 ```{r fig.width=3, fig.height=3,echo=F}
 
 CO2_fit <- CO2_by_Plant_Type_Treatment %>%
-          %>% do(lm(uptake~conc, data=.))
+          do(model=lm(uptake~conc, data=.))
 
 ```
 
@@ -574,7 +574,7 @@ wide_iris <- spread(seperated_iris,
 
 ```{r fig.width=3, fig.height=3,echo=T, eval=F}
 list_plots <- wide_iris %>% group_by(Species) %>%
-      do(print(qplot(data=.,
+      do(plots=(qplot(data=.,
                     ymin=I(0),
                     ymax=Length,
                     xmin=I(0),
@@ -589,3 +589,8 @@ list_plots <- wide_iris %>% group_by(Species) %>%
 
 ```
 
+Feedback
+===
+
+[Feedback form](http://goo.gl/forms/3mH1UC0fH3)
+http://goo.gl/forms/3mH1UC0fH3

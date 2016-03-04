@@ -296,7 +296,7 @@ print(basic.plot)
 Using ggplot function
 ===
 
-more powerful, more complicated
+more powerful, more complicated  
 Note: aes() and geom_point()
 
 ```{r fig.width=4, fig.height=4}
