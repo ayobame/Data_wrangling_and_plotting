@@ -331,7 +331,7 @@ Chaining operations
 `%>%`  allows you to apply multiple functions sequentially  
 (equivalent to "|" in bash)
 
-```{r fig.width=3, fig.height=3,echo=T, eval=F}
+```{r fig.width=3, fig.height=3}
 CO2_by_Plant_Type_Treatment <- group_by(CO2,
                                         Plant,
                                         Type,
@@ -342,7 +342,7 @@ CO2_max_per_plant <- summarise(CO2_by_Plant_Type_Treatment,
 
 becomes
 
-```{r fig.width=3, fig.height=3,echo=T, eval=F}
+```{r fig.width=3, fig.height=3}
 CO2_max_per_plant <-CO2 %>%
                       group_by(Plant,
                                 Type,
@@ -356,10 +356,10 @@ Do
 
 `do` is like `mutate` or `summarise`, but returns a list of any `R` objects
 
-```{r fig.width=3, fig.height=3,echo=F}
+```{r fig.width=3, fig.height=3}
 
 CO2_fit <- CO2_by_Plant_Type_Treatment %>%
-          %>% do(lm(uptake~conc, data=.))
+          do(model=lm(uptake~conc, data=.))
 
 ```
 
@@ -368,10 +368,10 @@ do and broom
 ===
 
 
-```{r fig.width=3, fig.height=3,echo=F}
+```{r fig.width=3, fig.height=3}
 require(broom)
 CO2_fit <- CO2_by_Plant_Type_Treatment %>%
-          %>% do(tidy(lm(uptake~conc, data=.)))
+          do(tidy(lm(uptake~conc, data=.)))
 
 ```
 
@@ -472,6 +472,51 @@ plyr
 - Produce large number of complex plots
 
 
+
+`do` for data exploration
+===
+
+Seperate string variable and spreading  (reminder)
+
+```{r fig.width=3, fig.height=3,echo=T}
+require(tidyr)
+
+iris$specimen <- 1:nrow(iris)
+
+long_iris<-gather(iris,"Measurement",
+                  "Value",
+                  Sepal.Length:Petal.Width)
+
+seperated_iris <- separate(long_iris,
+                      Measurement, 
+                      c("Organ", "Dimension"))
+
+wide_iris <- spread(seperated_iris,
+                    Dimension,
+                    Value)
+```
+
+
+`do` for data exploration
+===
+
+```{r fig.width=3, fig.height=3,echo=T, eval=F}
+list_plots <- wide_iris %>% group_by(Species) %>%
+      do(print(qplot(data=.,
+                    ymin=I(0),
+                    ymax=Length,
+                    xmin=I(0),
+                    xmax=Width,
+                    xlim=c(0,10),
+                    ylim=c(0,10),
+                    geom="rect",
+                    facets=~specimen,
+                    alpha=I(0.3),
+                    fill=Organ)))
+
+
+```
+
 plyr
 ===
 
@@ -545,47 +590,8 @@ var myCountdown1 = new Countdown({
 
 
 
-`do` for data exploration
+Feedback
 ===
 
-Seperate string variable and spreading  (reminder)
-
-```{r fig.width=3, fig.height=3,echo=T}
-require(tidyr)
-
-iris$specimen <- 1:nrow(iris)
-
-long_iris<-gather(iris,"Measurement",
-                  "Value",
-                  Sepal.Length:Petal.Width)
-
-seperated_iris <- separate(long_iris,
-                      Measurement, 
-                      c("Organ", "Dimension"))
-
-wide_iris <- spread(seperated_iris,
-                    Dimension,
-                    Value)
-```
-
-
-`do` for data exploration
-===
-
-```{r fig.width=3, fig.height=3,echo=T, eval=F}
-list_plots <- wide_iris %>% group_by(Species) %>%
-      do(print(qplot(data=.,
-                    ymin=I(0),
-                    ymax=Length,
-                    xmin=I(0),
-                    xmax=Width,
-                    xlim=c(0,10),
-                    ylim=c(0,10),
-                    geom="rect",
-                    facets=~specimen,
-                    alpha=I(0.3),
-                    fill=Organ)))
-
-
-```
-
+[Feedback form](http://goo.gl/forms/3mH1UC0fH3)
+http://goo.gl/forms/3mH1UC0fH3

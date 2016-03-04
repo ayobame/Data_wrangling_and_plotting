@@ -623,3 +623,8 @@ print(p)
 
 ![plot of chunk unnamed-chunk-23](tidyr-figure/unnamed-chunk-23-1.png) 
 
+Feedback
+===
+
+[Feedback form](http://goo.gl/forms/3mH1UC0fH3)
+http://goo.gl/forms/3mH1UC0fH3

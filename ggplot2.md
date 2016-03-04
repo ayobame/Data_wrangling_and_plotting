@@ -293,12 +293,12 @@ Note: aes() and geom_point()
 
 
 ```r
-basic.plot<- ggplot(data=iris,
+basic.plot<- ggplot(data=iris)+
                aes(x=Sepal.Length,
                   xlab="Sepal Width (mm)",
                   y=Sepal.Width,
                   ylab="Sepal Length (mm)",
-                  main="Sepal dimensions"))+
+                  main="Sepal dimensions")+
   geom_point()
 ```
 now required to use stat=""

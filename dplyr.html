@@ -1259,11 +1259,270 @@ CO2_max_per_plant &lt;- summarise(CO2_by_Plant_Type_Treatment,
 <div class="slideContent" >
 <p><code>do</code> is like <code>mutate</code> or <code>summarise</code>, but returns a list of any <code>R</code> objects</p>
 
-<pre><code>Error in parse(text = x, srcfile = src) : &lt;text&gt;:3:11: unexpected SPECIAL
-2: CO2_fit &lt;- CO2_by_Plant_Type_Treatment %&gt;%
-3:           %&gt;%
-             ^
+<pre><code class="r">CO2_fit &lt;- CO2_by_Plant_Type_Treatment %&gt;%
+          do(model=lm(uptake~conc, data=.))
 </code></pre>
+
+</div>
+
+</section>
+<section data-transition="fade" data-transition-speed="default">
+<h3>do and broom</h3>
+<div class="slideContent" >
+<pre><code class="r">require(broom)
+CO2_fit &lt;- CO2_by_Plant_Type_Treatment %&gt;%
+          do(tidy(lm(uptake~conc, data=.)))
+</code></pre>
+
+</div>
+
+</section>
+<section data-transition="fade" data-transition-speed="default">
+<h3>Exercise 3</h3>
+<div class="slideContent" >
+<ul>
+<li>convert code from previous exercises (1 &amp; 2) using <code>%&gt;%</code> chaining
+-convert the <code>summarise</code> of the iris data set
+-convert the <code>mutate</code> of the monthly temperature</li>
+</ul>
+
+<div class="centered">
+
+<script src="countdown.js" type="text/javascript"></script>
+<script type="application/javascript">
+var myCountdown1 = new Countdown({
+                                time: 300, 
+                                    width:150, 
+                                    height:80, 
+                                    rangeHi:"minute"    // <- no comma on last item!
+                                    });
+
+</script>
+
+</div>
+
+</div>
+
+</section>
+<section data-transition="fade" data-transition-speed="default">
+<h3>Split verbes</h3>
+<div class="slideContent" >
+<ul>
+<li><code>filter</code></li>
+</ul>
+
+<pre><code class="r">filter(iris, Sepal.Width==3)
+
+mtcars[iris$Sepal.Width == 3,]
+</code></pre>
+
+<ul>
+<li><code>select</code></li>
+</ul>
+
+<pre><code class="r">select(iris, Species)
+iris[,&quot;Species&quot;]
+</code></pre>
+
+<pre><code class="r">select(iris, starts_with(&quot;Petal&quot;))
+</code></pre>
+
+</div>
+
+</section>
+<section data-transition="fade" data-transition-speed="default">
+<h3>dplyr database</h3>
+<div class="slideContent" >
+<p><a href="https://cran.rstudio.com/web/packages/dplyr/vignettes/databases.html">https://cran.rstudio.com/web/packages/dplyr/vignettes/databases.html</a></p>
+
+<p>create a database</p>
+
+<pre><code class="r">my_db &lt;- src_sqlite(&quot;my_db.sqlite3&quot;, create = T)
+</code></pre>
+
+</div>
+
+</section>
+<section data-transition="fade" data-transition-speed="default">
+<h3>dplyr database</h3>
+<div class="slideContent" >
+<p>load data into the database</p>
+
+<pre><code class="r">CO2_sqlite &lt;- copy_to(my_db,
+                      CO2, 
+                      temporary = FALSE,
+                      indexes = list(&quot;Plant&quot;,
+                                     &quot;Type&quot;,
+                                     &quot;Treatment&quot;,
+                                     &quot;conc&quot;,
+                                     &quot;uptake&quot;))
+</code></pre>
+
+</div>
+
+</section>
+<section data-transition="fade" data-transition-speed="default">
+<h3>dplyr database</h3>
+<div class="slideContent" >
+<p>use the tables from a database as a regular data.frame</p>
+
+<pre><code class="r">CO2_max_per_plant &lt;-CO2_sqlite %&gt;%
+                      group_by(Plant,
+                                Type,
+                                Treatment)  %&gt;%
+                      summarise(max_uptake=max(uptake)) 
+</code></pre>
+
+</div>
+
+</section>
+<section data-transition="fade" data-transition-speed="default">
+<h3>dplyr database</h3>
+<div class="slideContent" >
+<p>note that <code>dplyr</code> will only execute database calls when needed<br/>
+(when manipulated is being called eg. by <code>print()</code>)</p>
+
+</div>
+
+</section>
+<section data-transition="fade" data-transition-speed="default">
+<h3>plyr</h3>
+<div class="slideContent" >
+<ul>
+<li>Load list of files</li>
+<li>Produce large number of complex plots</li>
+</ul>
+
+</div>
+
+</section>
+<section data-transition="fade" data-transition-speed="default">
+<h3>`do` for data exploration</h3>
+<div class="slideContent" >
+<p>Seperate string variable and spreading  (reminder)</p>
+
+<pre><code class="r">require(tidyr)
+
+iris$specimen &lt;- 1:nrow(iris)
+
+long_iris&lt;-gather(iris,&quot;Measurement&quot;,
+                  &quot;Value&quot;,
+                  Sepal.Length:Petal.Width)
+
+seperated_iris &lt;- separate(long_iris,
+                      Measurement, 
+                      c(&quot;Organ&quot;, &quot;Dimension&quot;))
+
+wide_iris &lt;- spread(seperated_iris,
+                    Dimension,
+                    Value)
+</code></pre>
+
+</div>
+
+</section>
+<section data-transition="fade" data-transition-speed="default">
+<h3>`do` for data exploration</h3>
+<div class="slideContent" >
+<pre><code class="r">list_plots &lt;- wide_iris %&gt;% group_by(Species) %&gt;%
+      do(print(qplot(data=.,
+                    ymin=I(0),
+                    ymax=Length,
+                    xmin=I(0),
+                    xmax=Width,
+                    xlim=c(0,10),
+                    ylim=c(0,10),
+                    geom=&quot;rect&quot;,
+                    facets=~specimen,
+                    alpha=I(0.3),
+                    fill=Organ)))
+</code></pre>
+
+</div>
+
+</section>
+<section data-transition="fade" data-transition-speed="default">
+<h3>plyr</h3>
+<div class="slideContent" >
+<p><code>_input_output_ply</code> functions:</p>
+
+<p><code>ddply</code>: data.frame in, data.frame out
+can be done in dplyr</p>
+
+<p><code>ldply</code>: list in, data.frame out</p>
+
+</div>
+
+</section>
+<section data-transition="fade" data-transition-speed="default">
+<h3>plyr</h3>
+<div class="slideContent" >
+<pre><code class="r">__ply(.data, 
+      .variables,
+      .fun = NULL,
+      .progress = &quot;text&quot;,
+      .parallel = FALSE,
+      .paropts = NULL)
+</code></pre>
+
+</div>
+
+</section>
+<section data-transition="fade" data-transition-speed="default">
+<h3>`ldply` for file list loading</h3>
+<div class="slideContent" >
+<p>How to load and merge into a single data frame
+all files in a directory</p>
+
+<pre><code class="r">file_list &lt;- list.files(&quot;./Data/&quot;,
+                        &quot;.txt&quot;)
+
+path_list &lt;- paste0(&quot;./Data/&quot;,
+                    file_list)
+
+loaded_data &lt;- ldply(.data=path_list,
+                     function(x){
+                       loaded_data &lt;- read.csv(x)
+                       loaded_data$path &lt;- x
+                       return(loaded_data)
+                     }
+</code></pre>
+
+</div>
+
+</section>
+<section data-transition="fade" data-transition-speed="default">
+<h3>Exercise 4</h3>
+<div class="slideContent" >
+<ul>
+<li>load all files in <code>temperature_timeseries</code> using <code>ldply()</code></li>
+<li>Calculate the annual absolute integrated anomaly for each site (<code>mutate</code>)</li>
+<li>Plot the annual absolute integrated anomaly for each site (<code>qplot</code>)</li>
+</ul>
+
+<div class="centered">
+
+<script src="countdown.js" type="text/javascript"></script>
+<script type="application/javascript">
+var myCountdown1 = new Countdown({
+                                time: 300, 
+                                    width:150, 
+                                    height:80, 
+                                    rangeHi:"minute"    // <- no comma on last item!
+                                    });
+
+</script>
+
+</div>
+
+</div>
+
+</section>
+<section data-transition="fade" data-transition-speed="default">
+<h3>Feedback</h3>
+<div class="slideContent" >
+<p><a href="http://goo.gl/forms/3mH1UC0fH3">Feedback form</a>
+<a href="http://goo.gl/forms/3mH1UC0fH3">http://goo.gl/forms/3mH1UC0fH3</a></p>
 
 </div>
 

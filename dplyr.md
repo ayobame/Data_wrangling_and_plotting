@@ -414,33 +414,246 @@ Do
 `do` is like `mutate` or `summarise`, but returns a list of any `R` objects
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+```r
+CO2_fit <- CO2_by_Plant_Type_Treatment %>%
+          do(model=lm(uptake~conc, data=.))
 ```
-Error in parse(text = x, srcfile = src) : <text>:3:11: unexpected SPECIAL
-2: CO2_fit <- CO2_by_Plant_Type_Treatment %>%
-3:           %>%
-             ^
+
+
+do and broom
+===
+
+
+
+```r
+require(broom)
+CO2_fit <- CO2_by_Plant_Type_Treatment %>%
+          do(tidy(lm(uptake~conc, data=.)))
 ```
+
+Exercise 3
+===
+
+- convert code from previous exercises (1 & 2) using `%>%` chaining
+  -convert the `summarise` of the iris data set
+  -convert the `mutate` of the monthly temperature
+
+
+<div class="centered">
+
+<script src="countdown.js" type="text/javascript"></script>
+<script type="application/javascript">
+var myCountdown1 = new Countdown({
+    							time: 300, 
+									width:150, 
+									height:80, 
+									rangeHi:"minute"	// <- no comma on last item!
+									});
+
+</script>
+
+</div>
+
+
+Split verbes
+===
+
+- `filter`
+
+```r
+filter(iris, Sepal.Width==3)
+ 
+mtcars[iris$Sepal.Width == 3,]
+```
+
+- `select`
+
+```r
+select(iris, Species)
+iris[,"Species"]
+```
+
+
+```r
+select(iris, starts_with("Petal"))
+```
+
+
+dplyr database
+===
+
+https://cran.rstudio.com/web/packages/dplyr/vignettes/databases.html
+
+create a database
+
+```r
+my_db <- src_sqlite("my_db.sqlite3", create = T)
+```
+
+dplyr database
+===
+
+load data into the database
+
+```r
+CO2_sqlite <- copy_to(my_db,
+                      CO2, 
+                      temporary = FALSE,
+                      indexes = list("Plant",
+                                     "Type",
+                                     "Treatment",
+                                     "conc",
+                                     "uptake"))
+```
+
+dplyr database
+===
+
+use the tables from a database as a regular data.frame
+
+
+```r
+CO2_max_per_plant <-CO2_sqlite %>%
+                      group_by(Plant,
+                                Type,
+                                Treatment)  %>%
+                      summarise(max_uptake=max(uptake)) 
+```
+
+dplyr database
+===
+
+note that `dplyr` will only execute database calls when needed  
+(when manipulated is being called eg. by `print()`)
+
+
+plyr
+===
+
+- Load list of files
+- Produce large number of complex plots
+
+
+
+`do` for data exploration
+===
+
+Seperate string variable and spreading  (reminder)
+
+
+```r
+require(tidyr)
+
+iris$specimen <- 1:nrow(iris)
+
+long_iris<-gather(iris,"Measurement",
+                  "Value",
+                  Sepal.Length:Petal.Width)
+
+seperated_iris <- separate(long_iris,
+                      Measurement, 
+                      c("Organ", "Dimension"))
+
+wide_iris <- spread(seperated_iris,
+                    Dimension,
+                    Value)
+```
+
+
+`do` for data exploration
+===
+
+
+```r
+list_plots <- wide_iris %>% group_by(Species) %>%
+      do(print(qplot(data=.,
+                    ymin=I(0),
+                    ymax=Length,
+                    xmin=I(0),
+                    xmax=Width,
+                    xlim=c(0,10),
+                    ylim=c(0,10),
+                    geom="rect",
+                    facets=~specimen,
+                    alpha=I(0.3),
+                    fill=Organ)))
+```
+
+plyr
+===
+
+`_input_output_ply` functions:
+
+`ddply`: data.frame in, data.frame out
+can be done in dplyr
+
+`ldply`: list in, data.frame out
+
+
+plyr
+===
+
+
+```r
+__ply(.data, 
+      .variables,
+      .fun = NULL,
+      .progress = "text",
+      .parallel = FALSE,
+      .paropts = NULL)
+```
+
+
+`ldply` for file list loading
+===
+
+How to load and merge into a single data frame
+all files in a directory
+
+
+```r
+file_list <- list.files("./Data/",
+                        ".txt")
+
+path_list <- paste0("./Data/",
+                    file_list)
+
+loaded_data <- ldply(.data=path_list,
+                     function(x){
+                       loaded_data <- read.csv(x)
+                       loaded_data$path <- x
+                       return(loaded_data)
+                     }
+```
+
+Exercise 4
+===
+
+- load all files in `temperature_timeseries` using `ldply()`
+- Calculate the annual absolute integrated anomaly for each site (`mutate`)
+- Plot the annual absolute integrated anomaly for each site (`qplot`)
+
+<div class="centered">
+
+<script src="countdown.js" type="text/javascript"></script>
+<script type="application/javascript">
+var myCountdown1 = new Countdown({
+    							time: 300, 
+									width:150, 
+									height:80, 
+									rangeHi:"minute"	// <- no comma on last item!
+									});
+
+</script>
+
+</div>
+
+
+
+
+
+Feedback
+===
+
+[Feedback form](http://goo.gl/forms/3mH1UC0fH3)
+http://goo.gl/forms/3mH1UC0fH3
