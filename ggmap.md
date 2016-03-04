@@ -141,11 +141,10 @@ Exercise 1
 
 Create a coordinate file with the location of your house and the location of the house of your friends
 
-Plot the distribution of *Amazilia amazilia* using data from :
-Oswald, J.A. et al., 2015. Historical climatic variability and geographical barriers as drivers of community composition in a biodiversity hotspot. Journal of Biogeography
-[paper](http://onlinelibrary.wiley.com/doi/10.1111/jbi.12605/abstract?userIsAuthenticated=false&deniedAccessCustomisedMessage=)
-[data](http://datadryad.org/resource/doi:10.5061/dryad.56p0f)
-
+Produce maps from the data in 
+Henry P, Le Lay G, Goudet J, Guisan A, Jahodová S, Besnard G (2009) Reduced genetic diversity, increased isolation and multiple introductions of invasive giant hogweed in the western Swiss Alps. Molecular Ecology 18: 2819-2831. 
+[paper](http://dx.doi.org/10.1111/j.1365-294X.2009.04237.x)
+[data](http://datadryad.org/resource/doi:10.5061/dryad.1237)
 
 
 <div class="centered">
