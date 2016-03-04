@@ -369,7 +369,7 @@ p <- ggplot(data=CO2_fit,aes(x=Type,
 Exercise 2
 ===
 
-- Use the exercise_data_temp_par.csv file
+- Use the [exercise_data_temp_par.csv](https://github.com/low-decarie/Data_wrangling_and_plotting/tree/master/Data) file
 - Calculate the deviations from the annual means  
 - Calculate the annual absolute integrated anomaly
 

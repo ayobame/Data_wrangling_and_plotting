@@ -15,7 +15,8 @@ Creating maps
 ===
 class: small-code
 
-```{r}
+
+```r
 if(!require(ggmap)) {install.packages("ggmap")}
 require(ggmap)
 if(!require(maptools)) {install.packages("maptools")}
@@ -26,12 +27,15 @@ Basic world map
 ===
 class: small-code
 
-```{r fig.width=8, fig.height=3,echo=T}
+
+```r
 map <- ggplot()+borders("world", 
                         colour="gray50",
                         fill="gray50")
 print(map)
 ```
+
+![plot of chunk unnamed-chunk-2](ggmap-figure/unnamed-chunk-2-1.png) 
 
 Resource
 ===
@@ -49,14 +53,16 @@ Pretty world map
 
 bounding box lowerleftlon, lowerleftlat, upperrightlon, upperrightlat (a little glitchy for google maps)
 
-```{r fig.width=8, fig.height=3,echo=T, eval=F}
+
+```r
 myLocation <- with(coord, c(min(LON),
                             min(LAT), 
                             max(LON), 
                             max(LAT)))
 ```
 
-```{r fig.width=8, fig.height=3,echo=T}
+
+```r
 myLocation <- c(-179,-89,179,89)
 myMap <- get_map(location=myLocation, 
                  source="stamen", 
@@ -67,18 +73,22 @@ myMap <- ggmap(myMap)
 print(myMap)
 ```
 
+![plot of chunk unnamed-chunk-4](ggmap-figure/unnamed-chunk-4-1.png) 
+
 
 Load geo-referenced coral bleaching data
 ===
 
 Coral bleaching data from ReefBase http://www.reefbase.org
-```{r}
+
+```r
 coord <- read.csv("./Data/CoralBleaching_cleaned.csv")
 ```
 
 Extract bleaching events
 
-```{r}
+
+```r
 coord <- coord[coord$BLEACHING_SEVERITY %in% c("Low","Medium","HIGH"),]
 coord$BLEACHING_SEVERITY <- factor(coord$BLEACHING_SEVERITY, levels=levels(coord$BLEACHING_SEVERITY)[c(2,3,1)])
 ```
@@ -87,7 +97,8 @@ coord$BLEACHING_SEVERITY <- factor(coord$BLEACHING_SEVERITY, levels=levels(coord
 Add the data to the map
 ===
 
-```{r fig.width=8, fig.height=3,echo=T}
+
+```r
 map <- map+geom_point(data=coord,aes(x=LON,
                                      y=LAT,
                                      colour=BLEACHING_SEVERITY),
@@ -95,10 +106,13 @@ map <- map+geom_point(data=coord,aes(x=LON,
 print(map)
 ```
 
+![plot of chunk unnamed-chunk-7](ggmap-figure/unnamed-chunk-7-1.png) 
+
 Fine tuning: Scales
 ===
 
-```{r fig.width=8, fig.height=3,echo=T}
+
+```r
 map <- map+
   scale_colour_manual(values = c("Low"="yellow",
                                  "Medium"="orange",
@@ -109,12 +123,17 @@ map <- map+
 print(map)
 ```
 
+![plot of chunk unnamed-chunk-8](ggmap-figure/unnamed-chunk-8-1.png) 
+
 Fine tuning: Facets
 ===
 
-```{r fig.width=8, fig.height=6,echo=T}
+
+```r
 print(map+facet_wrap(~YEAR))
 ```
+
+![plot of chunk unnamed-chunk-9](ggmap-figure/unnamed-chunk-9-1.png) 
 
 
 Exercise 1
@@ -122,10 +141,10 @@ Exercise 1
 
 Create a coordinate file with the location of your house and the location of the house of your friends
 
-Produce figures from the data in 
-Henry P, Le Lay G, Goudet J, Guisan A, Jahodová S, Besnard G (2009) Reduced genetic diversity, increased isolation and multiple introductions of invasive giant hogweed in the western Swiss Alps. Molecular Ecology 18: 2819-2831. 
-[paper](http://dx.doi.org/10.1111/j.1365-294X.2009.04237.x)
-[data](http://datadryad.org/resource/doi:10.5061/dryad.1237)
+Plot the distribution of *Amazilia amazilia* using data from :
+Oswald, J.A. et al., 2015. Historical climatic variability and geographical barriers as drivers of community composition in a biodiversity hotspot. Journal of Biogeography
+[paper](http://onlinelibrary.wiley.com/doi/10.1111/jbi.12605/abstract?userIsAuthenticated=false&deniedAccessCustomisedMessage=)
+[data](http://datadryad.org/resource/doi:10.5061/dryad.56p0f)
 
 
 

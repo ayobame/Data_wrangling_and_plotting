@@ -314,7 +314,7 @@ print(p)
 Exercise 2
 ===
 
-- Use the exercise_data_temp_par.csv file
+- Use the [exercise_data_temp_par.csv](https://github.com/low-decarie/Data_wrangling_and_plotting/tree/master/Data) file
 - Calculate the deviations from the annual means  
 - Calculate the annual absolute integrated anomaly
 
@@ -522,7 +522,7 @@ loaded_data <- ldply(.data=path_list,
 Exercise 4
 ===
 
-- load all files in `temperature_timeseries` using `ldply()`
+- load all files in [temperature_timeseries](https://github.com/low-decarie/Data_wrangling_and_plotting/tree/master/Data) using `ldply()`
 - Calculate the annual absolute integrated anomaly for each site (`mutate`)
 - Plot the annual absolute integrated anomaly for each site (`qplot`)
 
